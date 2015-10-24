@@ -36,6 +36,7 @@ namespace AssemblySkeleton
         static Orbwalking.Orbwalker Orbwalker;
         static Menu Menu;
         private static Vector2 PingLocation;
+        static bool isEQ = false;
         private static int LastPingT = 0;
         public static bool ECasted;
         static Obj_AI_Hero Player { get { return ObjectManager.Player; } }
@@ -53,7 +54,6 @@ namespace AssemblySkeleton
             Q.SetTargetted(0.25f, 2150f);
             W = new Spell(SpellSlot.W);
             E = new Spell(SpellSlot.E, 980);
-            E.SetSkillshot(0.5f, 40, float.MaxValue, false, SkillshotType.SkillshotCircle);
             R = new Spell(SpellSlot.R);
             R.SetSkillshot(0.9f, 100, float.MaxValue, false, SkillshotType.SkillshotCircle);
             #endregion
@@ -140,7 +140,8 @@ namespace AssemblySkeleton
 
             if (Menu.Item("CastEQ").GetValue<KeyBind>().Active || Menu.Item("CastQ").GetValue<KeyBind>().Active)
             {
-                
+                if (Menu.Item("CastEQ").GetValue<KeyBind>().Active) isEQ = true;
+                else isEQ = false;
                 Barrel myQTarget = NearestExpBarrelToMouse();
                
                     //Kreygasm
@@ -154,7 +155,7 @@ namespace AssemblySkeleton
                         if (time < kappaHD)
                         {
                             if (!Menu.Item("CastQ").GetValue<KeyBind>().Active)
-                                E.Cast(Game.CursorPos);
+                                E.Cast(blockPos);
                             ECasted = true;
                             Q.CastOnUnit(myQTarget.barrel);
 
@@ -169,7 +170,7 @@ namespace AssemblySkeleton
                         if (time < kappaHD)
                         {
                             if (!Menu.Item("CastQ").GetValue<KeyBind>().Active)
-                                E.Cast(Game.CursorPos);
+                                E.Cast(blockPos);
                             ECasted = true;
                             Q.CastOnUnit(myQTarget.barrel);
 
@@ -184,7 +185,7 @@ namespace AssemblySkeleton
                         if (time < kappaHD)
                         {
                             if (!Menu.Item("CastQ").GetValue<KeyBind>().Active)
-                                E.Cast(Game.CursorPos);
+                                E.Cast(blockPos);
                             ECasted = true;
                             Q.CastOnUnit(myQTarget.barrel);
                             
@@ -198,6 +199,7 @@ namespace AssemblySkeleton
             else
             {
                 ECasted = false;
+                isEQ = false;
                 
             }
 
@@ -294,6 +296,7 @@ namespace AssemblySkeleton
             //Draw connection line
             mouseToClosestBarrel = NearestBarrelToMouse().barrel.Distance(Game.CursorPos);
             //In connection range
+
             
             if (mouseToClosestBarrel <= BarrelConnectionRange * 2)
             {
@@ -334,7 +337,7 @@ namespace AssemblySkeleton
         {
             if (args.Slot == SpellSlot.E && Menu.Item("Corrector").GetValue<bool>())
             {
-                if (mouseToClosestBarrel > BarrelConnectionRange*2 && mouseToClosestBarrel < maxSearchRange && blockPos.Distance(Game.CursorPos) <= correctionRange )
+                if (mouseToClosestBarrel > BarrelConnectionRange*2 && mouseToClosestBarrel < maxSearchRange && blockPos.Distance(Game.CursorPos) <= correctionRange  && savedBarrels.Count > 0 && !isEQ)
                 {
                    
                     args.Process = false;
