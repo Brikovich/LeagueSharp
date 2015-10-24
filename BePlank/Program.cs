@@ -85,6 +85,7 @@ namespace AssemblySkeleton
             Menu.AddItem(new MenuItem("Corrector", "Connection correction [BETA]").SetTooltip("If E connection miss will try to cast E on the lastest succesfull position").SetValue(true));
             Menu.AddItem(new MenuItem("CastQ", "Quick Q detonate nearest (health decay support)").SetValue(new KeyBind('A', KeyBindType.Press, false)));
             Menu.AddItem(new MenuItem("CastEQ", "Quick cast EQ at mouse (first barrel manual)").SetValue(new KeyBind('T', KeyBindType.Press, false)));
+            
             Menu.AddItem(new MenuItem("Ping", "Ping on low hp (local)").SetValue(true));
             Menu.AddItem(new MenuItem("KS", "Q KillSecure").SetValue(true));
             Menu.AddItem(new MenuItem("Qlasthit", "Q last hit toggle").SetValue(new KeyBind('K', KeyBindType.Toggle, false)));
@@ -119,8 +120,6 @@ namespace AssemblySkeleton
 
         static void Game_OnUpdate(EventArgs args)
         {
-            if (Player.IsDead)
-                return;
 
             //Remove barrelss, onDelete have huge delay
             for (int i = 0; i < savedBarrels.Count; i++)
@@ -140,12 +139,13 @@ namespace AssemblySkeleton
 
             if (Menu.Item("CastEQ").GetValue<KeyBind>().Active || Menu.Item("CastQ").GetValue<KeyBind>().Active)
             {
+                
                 if (Menu.Item("CastEQ").GetValue<KeyBind>().Active) isEQ = true;
                 else isEQ = false;
                 Barrel myQTarget = NearestExpBarrelToMouse();
-               
-                    //Kreygasm
-                    if (!ECasted)
+                
+                //Kreygasm
+                if (!ECasted)
                 {
                     if (Player.Level >= 7 && Player.Level < 13)
                     {
@@ -155,23 +155,27 @@ namespace AssemblySkeleton
                         if (time < kappaHD)
                         {
                             if (!Menu.Item("CastQ").GetValue<KeyBind>().Active)
-                                E.Cast(blockPos);
+                                E.Cast(correctThisPosition(Game.CursorPos.To2D(), closestToPosition(Game.CursorPos)));
                             ECasted = true;
+                            
                             Q.CastOnUnit(myQTarget.barrel);
+
 
                         }
 
                     }
                     else if (Player.Level >= 13)
                     {
+                        
                         var time = 1f * 1000;
                         var kappaHD = Environment.TickCount - myQTarget.time + (Player.Distance(myQTarget.barrel) / 2800f + Q.Delay) * 1000;
 
                         if (time < kappaHD)
                         {
                             if (!Menu.Item("CastQ").GetValue<KeyBind>().Active)
-                                E.Cast(blockPos);
+                                E.Cast(correctThisPosition(Game.CursorPos.To2D(), closestToPosition(Game.CursorPos)));
                             ECasted = true;
+                            
                             Q.CastOnUnit(myQTarget.barrel);
 
 
@@ -185,7 +189,7 @@ namespace AssemblySkeleton
                         if (time < kappaHD)
                         {
                             if (!Menu.Item("CastQ").GetValue<KeyBind>().Active)
-                                E.Cast(blockPos);
+                                E.Cast(correctThisPosition(Game.CursorPos.To2D(), closestToPosition(Game.CursorPos)));
                             ECasted = true;
                             Q.CastOnUnit(myQTarget.barrel);
                             
@@ -300,7 +304,7 @@ namespace AssemblySkeleton
             
             if (mouseToClosestBarrel <= BarrelConnectionRange * 2)
             {
-                blockPos = Game.CursorPos;
+                
                 if (E.IsReady())
                 {
                     if (Menu.Item("DrawEConnection").GetValue<bool>())
@@ -337,12 +341,12 @@ namespace AssemblySkeleton
         {
             if (args.Slot == SpellSlot.E && Menu.Item("Corrector").GetValue<bool>())
             {
-                if (mouseToClosestBarrel > BarrelConnectionRange*2 && mouseToClosestBarrel < maxSearchRange && blockPos.Distance(Game.CursorPos) <= correctionRange  && savedBarrels.Count > 0 && !isEQ)
+                if (mouseToClosestBarrel > BarrelConnectionRange*2 && mouseToClosestBarrel < maxSearchRange && correctThisPosition(Game.CursorPos.To2D(), closestToPosition(Game.CursorPos)).Distance(Game.CursorPos) <= correctionRange  && savedBarrels.Count > 0 && !isEQ)
                 {
                    
                     args.Process = false;
                     Spellbook.OnCastSpell -= Game_OnCastSpell;
-                    E.Cast(blockPos);
+                    E.Cast(correctThisPosition(Game.CursorPos.To2D(), closestToPosition(Game.CursorPos)));
                     Spellbook.OnCastSpell += Game_OnCastSpell;
 
                 }
@@ -436,7 +440,44 @@ namespace AssemblySkeleton
         {
             Game.ShowPing(PingCategory.Fallback, PingLocation, true);
         }
-    }
+
+        //Correct given position so it will connect to barrel to that position at max range
+
+        public static Vector2 correctThisPosition(Vector2 position, Barrel barrelToConnect)
+        {
+            double vX = position.X - barrelToConnect.barrel.Position.X;
+            double vY = position.Y - barrelToConnect.barrel.Position.Y;
+            double magV = Math.Sqrt(vX * vX + vY * vY);
+            double aX = Math.Round(barrelToConnect.barrel.Position.X + vX / magV * 680);
+            double aY = Math.Round(barrelToConnect.barrel.Position.Y + vY / magV * 680);
+            Vector2 newPosition = new Vector2(Convert.ToInt32(aX), Convert.ToInt32(aY));
+            return newPosition;
+        }
 
 
+        //Return closest barrel to a position
+        public static Barrel closestToPosition(Vector3 position)
+        {
+            if (savedBarrels.Count() == 0)
+                return null;
+            Barrel closest = null;
+            float bestSoFar = -1;
+
+
+            for (int i = 0; i < savedBarrels.Count; i++)
+            {
+                if (bestSoFar == -1 || savedBarrels[i].barrel.Distance(position) < bestSoFar)
+                {
+                    bestSoFar = savedBarrels[i].barrel.Distance(position);
+                    closest = savedBarrels[i];
+                }
+            }
+            return closest;
+        }
+
     }
+
+    
+
+
+}
