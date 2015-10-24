@@ -44,44 +44,50 @@ namespace BrikoEzEvade_Plugin
         #region OnDraw
         private static void _OnDraw(EventArgs Args)
         {
-            string statusText = "Loading..";
-            Color statusColor = Color.Gray;
+           
+                string statusText = "Loading..";
+                Color statusColor = Color.Gray;
 
-            //Errors handler
-            if (!hp_ras)
-            {
-                statusText = "ERROR ! Please make sure that levels HP% values are in ascending order.";
-                statusColor = Color.Red;
-            }
-
-            //Activated or nah
-            if (activated && hp_ras)
-            {
-                oldactivated = false;
-                statusText = "BrikoPlugin : " + currentLevel;
-                //KappaPride
-                if (currentLevel == 1) statusColor = Color.LawnGreen;
-                else if (currentLevel == 2) statusColor = Color.Yellow;
-                else if (currentLevel == 3) statusColor = Color.Red;
-                else statusColor = Color.Black;
-            }
-            else if (!activated && hp_ras)
-            {
-                statusText = "BrikoPlugin : OFF";
-                statusColor = Color.Gray;
-                oldHP = 0;
-
-                if (!oldactivated)
+                //Errors handler
+                if (!hp_ras)
                 {
-                    loadBackupEzEvade();
-                    Game.PrintChat(System.DateTime.Now.ToString() + " - EzEvade settings restored");
-                    oldactivated = true;
+                    statusText = "ERROR ! Please make sure that levels HP% values are in ascending order.";
+                    statusColor = Color.Red;
                 }
+
+                //Activated or nah
+                if (activated && hp_ras)
+                {
+                    oldactivated = false;
+                    statusText = "BrikoPlugin : " + currentLevel;
+                    //KappaPride
+                    if (currentLevel == 1) statusColor = Color.LawnGreen;
+                    else if (currentLevel == 2) statusColor = Color.Yellow;
+                    else if (currentLevel == 3) statusColor = Color.Red;
+                    else statusColor = Color.Black;
+                }
+                else if (!activated && hp_ras)
+                {
+                    statusText = "BrikoPlugin : OFF";
+                    statusColor = Color.Gray;
+                    oldHP = 0;
+
+                    if (!oldactivated)
+                    {
+                        loadBackupEzEvade();
+                        Game.PrintChat(System.DateTime.Now.ToString() + " - EzEvade settings restored");
+                        oldactivated = true;
+                    }
+                }
+            if (_Menu.Item("draw").GetValue<Boolean>())
+            {
+                //Draw status under player
+                Drawing.DrawText(Drawing.WorldToScreen(myHero.Position)[0] - Drawing.GetTextExtent(statusText).Width / 2 - 3 + _Menu.Item("drawLeft").GetValue<Slider>().Value, Drawing.WorldToScreen(myHero.Position)[1] + 13 - _Menu.Item("drawTop").GetValue<Slider>().Value, statusColor, statusText);
             }
-
-            //Draw status under player
-            Drawing.DrawText(Drawing.WorldToScreen(myHero.Position)[0]-Drawing.GetTextExtent(statusText).Width/2-3, Drawing.WorldToScreen(myHero.Position)[1]+13, statusColor, statusText);
-
+            if (_Menu.Item("drawScan").GetValue<Boolean>())
+            {
+                Render.Circle.DrawCircle(myHero.Position, scanRange, Color.Gray);
+            }
 
 
         }
@@ -249,7 +255,11 @@ namespace BrikoEzEvade_Plugin
         {
             _Menu = new Menu("BrikoEzEvade Plugin", "mainMenu");
             _Menu.AddItem(new MenuItem("enable", "Enable").SetValue(new KeyBind('T', KeyBindType.Toggle, true)));
-            _Menu.AddItem(new MenuItem("range", "Scan Range").SetTooltip("Maximum range to scan for ally / ennemy").SetValue(new Slider(1000, 100, 3000)));
+            _Menu.AddItem(new MenuItem("draw", "Draw status").SetValue(true));
+            _Menu.AddItem(new MenuItem("drawTop", "Status offset top").SetTooltip("Reposition the status text").SetValue(new Slider(0, -200, 200)));
+            _Menu.AddItem(new MenuItem("drawLeft", "Status offset left").SetTooltip("Reposition the status text").SetValue(new Slider(0, -200, 200)));
+            _Menu.AddItem(new MenuItem("range", "Scan Range").SetTooltip("Maximum range to scan for ally / ennemy").SetValue(new Slider(1200, 100, 3000)));
+            _Menu.AddItem(new MenuItem("drawScan", "Draw scan range").SetValue(false));
             _Menu.AddItem(new MenuItem("interval", "Recalculate random interval").SetTooltip("Time in sec to recalculate ezvade on/off and reaction time based on ranges defined").SetValue(new Slider(10, 1, 120)));
             var levels = new Menu("Levels Settings", "levels");
             var lvl1menu = new Menu("Level 1 - Low Danger", "lvl1");
