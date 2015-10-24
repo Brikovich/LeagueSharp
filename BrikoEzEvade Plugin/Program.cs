@@ -27,6 +27,7 @@ namespace BrikoEzEvade_Plugin
         static int ennemiesInRange = 0;
         static int oldEnnemiesInRange = 6;
         static bool newRT = true;
+        static int loadingDelay;
         private static float oldHP=0;
         private static float currentHP=myHero.HealthPercent;
         private static int oldLevel = 4;
@@ -96,19 +97,33 @@ namespace BrikoEzEvade_Plugin
         #region OnGameLoad
         static void _OnGameLoad(EventArgs Args)
         {
-            Game.OnUpdate += _OnGameUpdate;
-            CustomEvents.Game.OnGameEnd += _OnGameEnd;
-            Drawing.OnDraw += _OnDraw;
+            //Check if ezEvade loaded after 1 sec
+            loadingDelay = Environment.TickCount;
+            Game.OnUpdate += _ThanksKurusi;
 
-            // Initialize menu
-            iniMenu();
+        }
 
-            // Welcome message  
-            Game.PrintChat("Briko EzEvade Plugin Loaded - By Brikovich");
+        static void _ThanksKurusi (EventArgs Args)
+        {
             
-            // Backup current ezEvade settings
-            backupEzEvade();
+            if (Environment.TickCount - loadingDelay > 1000)
+            {
+                Game.OnUpdate -= _ThanksKurusi;
+                if (!Menu.GetMenu("ezEvade", "ezEvade").IsRootMenu) return;
+                Game.OnUpdate += _OnGameUpdate;
+                CustomEvents.Game.OnGameEnd += _OnGameEnd;
+                Drawing.OnDraw += _OnDraw;
 
+                // Initialize menu
+                iniMenu();
+
+                // Welcome message  
+                Game.PrintChat("Briko EzEvade Plugin Loaded - By Brikovich");
+
+                // Backup current ezEvade settings
+                backupEzEvade();
+                
+            }
 
         }
         #endregion OnGameLoad
@@ -406,7 +421,6 @@ namespace BrikoEzEvade_Plugin
             backupFOW = Menu.GetMenu("ezEvade", "ezEvade").Item("DodgeFOWSpells").GetValue<bool>();
             backupcollision = Menu.GetMenu("ezEvade", "ezEvade").Item("CheckSpellCollision").GetValue<bool>();
             backuponlyDangerous = Menu.GetMenu("ezEvade", "ezEvade").Item("DodgeDangerous").GetValue<bool>();
-            backupactivated = Menu.GetMenu("ezEvade", "ezEvade").Item("DodgeSkillshots").GetValue<KeyBind>().Active;
         }
         static void loadBackupEzEvade()
         {
@@ -418,7 +432,7 @@ namespace BrikoEzEvade_Plugin
             Menu.GetMenu("ezEvade", "ezEvade").Item("DodgeFOWSpells").SetValue<Boolean>(backupFOW);
             Menu.GetMenu("ezEvade", "ezEvade").Item("CheckSpellCollision").SetValue<Boolean>(backupcollision);
             Menu.GetMenu("ezEvade", "ezEvade").Item("DodgeDangerous").SetValue<Boolean>(backuponlyDangerous);
-            Menu.GetMenu("ezEvade", "ezEvade").Item("DodgeSkillShots").SetValue(new KeyBind(keyBind.Key, KeyBindType.Toggle, true));
+            
         }
         #endregion
 
