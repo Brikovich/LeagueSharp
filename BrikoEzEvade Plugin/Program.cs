@@ -99,16 +99,16 @@ namespace BrikoEzEvade_Plugin
         {
             //Check if ezEvade loaded after 1 sec
             loadingDelay = Environment.TickCount;
-            Game.OnUpdate += _ThanksKurusi;
+            Game.OnUpdate += _ThanksKurisu;
 
         }
 
-        static void _ThanksKurusi (EventArgs Args)
+        static void _ThanksKurisu (EventArgs Args)
         {
             
             if (Environment.TickCount - loadingDelay > 1000)
             {
-                Game.OnUpdate -= _ThanksKurusi;
+                Game.OnUpdate -= _ThanksKurisu;
                 if (!Menu.GetMenu("ezEvade", "ezEvade").IsRootMenu) return;
                 Game.OnUpdate += _OnGameUpdate;
                 CustomEvents.Game.OnGameEnd += _OnGameEnd;
