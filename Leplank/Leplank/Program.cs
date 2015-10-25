@@ -16,13 +16,10 @@ namespace Leplank
     {
         #region declarations
         public static Obj_AI_Hero Player { get { return ObjectManager.Player; } }
-<<<<<<< HEAD
         private static Spell Q, W, E, R;
         static string champName = "Gangplank";
-=======
         public static Spell Q, W, E, R;
         public string champName = "Gangplank";
->>>>>>> origin/master
         public const string version = "1.0.0.0";
         #endregion declarations
 
