@@ -20,9 +20,11 @@ namespace Leplank
         internal class Barrel
         {
             public Obj_AI_Minion barrel;
-            public Barrel(Obj_AI_Minion objAiBase)
+            public float time;
+            public Barrel(Obj_AI_Minion objAiBase, int tickCount)
             {
                 barrel = objAiBase;
+                time = tickCount;
             }
         }
         #endregion Definitions
@@ -33,7 +35,7 @@ namespace Leplank
         {
             if (sender.Name == "Barrel")
             {
-                savedBarrels.Add(new Barrel(sender as Obj_AI_Minion));
+                savedBarrels.Add(new Barrel(sender as Obj_AI_Minion, Environment.TickCount));
                 chainManagerOnCreate();
                 debugBarrels(); //Debug
             }
@@ -68,10 +70,11 @@ namespace Leplank
 
             //Debug2
 
-            //Ici si on est en combo, il va Q le barril le plus proche du joueur pour attendre le barril le plus proche de la souris
+            //Ici si on est en combo, il va Q le barril le plus proche du joueur pour attendre le barril le plus proche de la souris (avec prediction de health decay)
            if(Menus._orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
-                Program.Q.CastOnUnit(giveClosestToChainToBarrel(Program.Player.Position, closestToPosition(Game.CursorPos)).barrel);
+
+                
                 
             }
 
