@@ -68,17 +68,7 @@ namespace Leplank
         public static void _DebugZone (EventArgs args)
         {
 
-            //Debug2
-
-            //Ici si on est en combo, il va Q le barril le plus proche du joueur pour attendre le barril le plus proche de la souris (avec prediction de health decay)
-           if(Menus._orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
-            {
-
-
-                
-                ExplosionPrediction.autoAttack(giveClosestToChainToBarrel(Program.Player.Position, savedBarrels[0]));
-
-            }
+          
 
         }
 
