@@ -32,7 +32,6 @@ namespace Leplank
             {
                 savedBarrels.Add(new Barrel(sender as Obj_AI_Minion));
                 chainMangerOnCreate();
-                Game.PrintChat(barrelChains.Count.ToString());
             }
             
 
@@ -56,9 +55,9 @@ namespace Leplank
        //Debug zone (for tests)
        public static void _DebugZone (EventArgs args)
         {
-            
 
-            
+            Game.PrintChat(barrelChains.Count.ToString());
+
         }
         
 
