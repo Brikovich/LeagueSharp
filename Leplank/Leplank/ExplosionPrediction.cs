@@ -25,10 +25,13 @@ namespace Leplank
                 else
                     time = 1f * 1000;
 
-                var qq = Environment.TickCount - targetBarrel.time + (Program.Player.Distance(targetBarrel.barrel) / 2800f + Program.Q.Delay) * 1000;
+                var qq = Environment.TickCount - targetBarrel.time + (Program.Player.Distance(targetBarrel.barrel) / 2800f + Program.Q.Delay) * 700;
                 if (targetBarrel.barrel.Distance(Program.Player) <= Program.Q.Range)
                 {
-                    Utility.DelayAction.Add(Convert.ToInt32(time - qq), () => Program.Q.CastOnUnit(targetBarrel.barrel));
+                
+                    if (Utility.DelayAction.ActionList.Count==0)
+                        Utility.DelayAction.Add(Convert.ToInt32(time - qq), () => Program.Q.CastOnUnit(targetBarrel.barrel));
+                    
                 }
         }
         public static void autoAttack (BarrelsManager.Barrel targetBarrel)
@@ -44,7 +47,8 @@ namespace Leplank
             var qq = Environment.TickCount - targetBarrel.time + Program.Player.AttackDelay;
             if (targetBarrel.barrel.Distance(Program.Player) <= Program.Player.AttackRange)
             {
-                Utility.DelayAction.Add(Convert.ToInt32(time - qq), () => Program.Player.IssueOrder(GameObjectOrder.AttackUnit, targetBarrel.barrel));
+                if (Utility.DelayAction.ActionList.Count == 0)
+                    Utility.DelayAction.Add(Convert.ToInt32(time - qq), () => Program.Player.IssueOrder(GameObjectOrder.AttackUnit, targetBarrel.barrel));
             }
             
         }

@@ -68,7 +68,7 @@ namespace Leplank
         public static void _DebugZone (EventArgs args)
         {
 
-
+           
 
         }
 
@@ -80,9 +80,6 @@ namespace Leplank
             {
                 Game.PrintChat("Dans la chaine portant l'index " + i.ToString() + " il y'a " + barrelChains[i].Count.ToString() + " barrils");
             }
-
-
-
            
 
         }
