@@ -68,7 +68,7 @@ namespace Leplank
         public static void _DebugZone (EventArgs args)
         {
 
-           
+            
 
         }
 
@@ -192,8 +192,8 @@ namespace Leplank
             double vX = position.X - barrelToConnect.barrel.Position.X;
             double vY = position.Y - barrelToConnect.barrel.Position.Y;
             double magV = Math.Sqrt(vX * vX + vY * vY);
-            double aX = Math.Round(barrelToConnect.barrel.Position.X + vX / magV * -680); //680 = range for connection
-            double aY = Math.Round(barrelToConnect.barrel.Position.Y + vY / magV * 680);
+            double aX = Math.Round(barrelToConnect.barrel.Position.X + vX / magV * 670); //680 = range for connection
+            double aY = Math.Round(barrelToConnect.barrel.Position.Y + vY / magV * 670);
             Vector2 newPosition = new Vector2(Convert.ToInt32(aX), Convert.ToInt32(aY));
             return newPosition;
         }
