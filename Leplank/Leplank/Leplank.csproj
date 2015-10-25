@@ -37,14 +37,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LeagueSharp">
-      <HintPath>C:\LeagueSharp\System\LeagueSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Botting - Hack\LoL - Leaguesharp\LeagueSharp\System\LeagueSharp.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Common">
-      <HintPath>C:\LeagueSharp\System\LeagueSharp.Common.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Botting - Hack\LoL - Leaguesharp\LeagueSharp\System\LeagueSharp.Common.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>C:\LeagueSharp\System\SharpDX.dll</HintPath>
-      <HintPath>C:\LeagueSharp\System\LeagueSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Botting - Hack\LoL - Leaguesharp\LeagueSharp\System\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Common">
       <HintPath>C:\LeagueSharp\System\LeagueSharp.Common.dll</HintPath>
@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarrelsManager.cs" />
+    <Compile Include="Gangplank.cs" />
     <Compile Include="Menus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
