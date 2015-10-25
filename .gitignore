@@ -47,3 +47,5 @@ Leplank/Leplank/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 Leplank/.vs/Leplank/v14/.suo
 *.cache
 Leplank/Leplank/obj/Debug/Leplank.csproj.FileListAbsolute.txt
+*.suo
+*.csproj
