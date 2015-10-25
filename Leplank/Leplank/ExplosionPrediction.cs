@@ -10,7 +10,7 @@ using SharpDX;
 namespace Leplank
 {
 
-    //Health decay prediction, use Q or AA to perfectly timed selected barrel explosion
+    //Health decay prediction, use Q  or AA (within Q range or AA range) to perfectly timed selected barrel explosion
     class ExplosionPrediction
     {
         public static void castQ (BarrelsManager.Barrel targetBarrel)
@@ -26,7 +26,10 @@ namespace Leplank
                     time = 1f * 1000;
 
                 var qq = Environment.TickCount - targetBarrel.time + (Program.Player.Distance(targetBarrel.barrel) / 2800f + Program.Q.Delay) * 1000;
-                Utility.DelayAction.Add(Convert.ToInt32(time-qq), () => Program.Q.CastOnUnit(targetBarrel.barrel)); 
+                if (targetBarrel.barrel.Distance(Program.Player) <= Program.Q.Range)
+                {
+                    Utility.DelayAction.Add(Convert.ToInt32(time - qq), () => Program.Q.CastOnUnit(targetBarrel.barrel));
+                }
         }
         public static void autoAttack (BarrelsManager.Barrel targetBarrel)
         {
@@ -39,7 +42,11 @@ namespace Leplank
                 time = 1f * 1000;
 
             var qq = Environment.TickCount - targetBarrel.time + Program.Player.AttackDelay;
-            Utility.DelayAction.Add(Convert.ToInt32(time - qq), () => Program.Player.IssueOrder(GameObjectOrder.AttackUnit, targetBarrel.barrel));
+            if (targetBarrel.barrel.Distance(Program.Player) <= Program.Player.AttackRange)
+            {
+                Utility.DelayAction.Add(Convert.ToInt32(time - qq), () => Program.Player.IssueOrder(GameObjectOrder.AttackUnit, targetBarrel.barrel));
+            }
+            
         }
 
     }
