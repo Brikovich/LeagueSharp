@@ -74,8 +74,10 @@ namespace Leplank
            if(Menus._orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
 
+
                 
-                
+                ExplosionPrediction.autoAttack(giveClosestToChainToBarrel(Program.Player.Position, savedBarrels[0]));
+
             }
 
         }
