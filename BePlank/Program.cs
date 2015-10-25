@@ -156,14 +156,14 @@ namespace AssemblySkeleton
                         {
                             if (isEQ)
                             {
-
-                                if (myQTarget.barrel.Distance(Game.CursorPos) > BarrelConnectionRange) E.Cast(correctThisPosition(Game.CursorPos.To2D(), myQTarget));
-                                else E.Cast(Game.CursorPos);
                                 ECasted = true;
+                                if (myQTarget.barrel.Distance(Game.CursorPos) > BarrelConnectionRange*2) E.Cast(correctThisPosition(Game.CursorPos.To2D(), myQTarget));
+                                else E.Cast(Game.CursorPos);
                                 Q.CastOnUnit(myQTarget.barrel);
 
                             }
                             else Q.CastOnUnit(myQTarget.barrel);
+
 
 
                         }
@@ -179,14 +179,14 @@ namespace AssemblySkeleton
                         {
                             if (isEQ)
                             {
-
-                                if (myQTarget.barrel.Distance(Game.CursorPos) > BarrelConnectionRange) E.Cast(correctThisPosition(Game.CursorPos.To2D(), myQTarget));
-                                else E.Cast(Game.CursorPos);
                                 ECasted = true;
+                                if (myQTarget.barrel.Distance(Game.CursorPos) > BarrelConnectionRange*2) E.Cast(correctThisPosition(Game.CursorPos.To2D(), myQTarget));
+                                else E.Cast(Game.CursorPos);
                                 Q.CastOnUnit(myQTarget.barrel);
 
                             }
                             else Q.CastOnUnit(myQTarget.barrel);
+
 
                         }
                     }
@@ -199,10 +199,9 @@ namespace AssemblySkeleton
                         {
                             if (isEQ)
                             {
-
-                                if (myQTarget.barrel.Distance(Game.CursorPos) > BarrelConnectionRange) E.Cast(correctThisPosition(Game.CursorPos.To2D(), myQTarget));
-                                else E.Cast(Game.CursorPos);
                                 ECasted = true;
+                                if (myQTarget.barrel.Distance(Game.CursorPos) > BarrelConnectionRange*2) E.Cast(correctThisPosition(Game.CursorPos.To2D(), myQTarget));
+                                else E.Cast(Game.CursorPos);
                                 Q.CastOnUnit(myQTarget.barrel);
 
                             }
