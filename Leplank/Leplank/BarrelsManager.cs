@@ -11,6 +11,11 @@ namespace Leplank
 {
     class BarrelsManager
     {
+        #region Definitions
+        //Lists
+        public static List<Barrel> savedBarrels = new List<Barrel>(); //Liste contenant le barrils vivants
+        public static List<List<Barrel>> barrelChains = new List<List<Barrel>>(); //Liste contenant les chaines de barrils (liste)
+
         //Barrel class
         internal class Barrel
         {
@@ -20,11 +25,9 @@ namespace Leplank
                 barrel = objAiBase;
             }
         }
-
-        //Saved barrels list (living ones)
-        public static List<Barrel> savedBarrels = new List<Barrel>();
-        public static List<List<Barrel>> barrelChains = new List<List<Barrel>>();
-
+        #endregion Definitions
+        
+        #region OnBarrelCreation
         //On barrel spawn += 1 barrel
         public static void _OnCreate(GameObject sender, EventArgs args)
         {
@@ -32,12 +35,14 @@ namespace Leplank
             {
                 savedBarrels.Add(new Barrel(sender as Obj_AI_Minion));
                 chainManagerOnCreate();
-                debugBarrels();
+                debugBarrels(); //Debug
             }
             
 
         }
+        #endregion OnBarrelCreation
 
+        #region OnBarrelDelete
         //On barrel delete (no health, Game_onDelete have huge delay ~1sec, to put on Game_OnUpdate)
         public static void _OnDelete(EventArgs args)
         {
@@ -47,17 +52,18 @@ namespace Leplank
                 {
                     chainManagerOnDelete(savedBarrels[i]);
                     savedBarrels.RemoveAt(i);
-                    debugBarrels();
+                    debugBarrels(); //Debug
                     return;
                 }
                 
             }
 
         }
+        #endregion OnBarrelDelete
 
-
-       //Debug zone (for tests)
-       public static void _DebugZone (EventArgs args)
+        #region Debug&TestsZone
+        //Debug zone (for tests)
+        public static void _DebugZone (EventArgs args)
         {
 
             
@@ -73,9 +79,9 @@ namespace Leplank
                 Game.PrintChat("Dans la chaine portant l'index " + i.ToString() + " il y'a " + barrelChains[i].Count.ToString() + " barrils");
             }
         }
+        #endregion Debug&TestsZone
 
-
-
+        #region ChainManager
         //Chain manager
         public static void chainManagerOnCreate()
         {
@@ -134,7 +140,6 @@ namespace Leplank
 
 
         }
-
         public static void chainManagerOnDelete(Barrel deletedBarrel)
         {
             //Pour chaque chaine de barrils
@@ -154,9 +159,9 @@ namespace Leplank
             }
  
         }
+        #endregion ChainManager
 
-
-
+        #region MiscFonctions
         //Return closest barrel to a position
         public static Barrel closestToPosition(Vector3 position)
         {
@@ -188,7 +193,7 @@ namespace Leplank
             Vector2 newPosition = new Vector2(Convert.ToInt32(aX), Convert.ToInt32(aY));
             return newPosition;
         }
-
+        #endregion MiscFonction
 
     }
 }
