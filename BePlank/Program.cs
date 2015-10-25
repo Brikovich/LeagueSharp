@@ -154,11 +154,16 @@ namespace AssemblySkeleton
 
                         if (time < kappaHD)
                         {
-                            if (!Menu.Item("CastQ").GetValue<KeyBind>().Active)
-                                E.Cast(correctThisPosition(Game.CursorPos.To2D(), closestToPosition(Game.CursorPos)));
-                            ECasted = true;
-                            
-                            Q.CastOnUnit(myQTarget.barrel);
+                            if (isEQ)
+                            {
+
+                                if (myQTarget.barrel.Distance(Game.CursorPos) > BarrelConnectionRange) E.Cast(correctThisPosition(Game.CursorPos.To2D(), myQTarget));
+                                else E.Cast(Game.CursorPos);
+                                ECasted = true;
+                                Q.CastOnUnit(myQTarget.barrel);
+
+                            }
+                            else Q.CastOnUnit(myQTarget.barrel);
 
 
                         }
@@ -172,12 +177,16 @@ namespace AssemblySkeleton
 
                         if (time < kappaHD)
                         {
-                            if (!Menu.Item("CastQ").GetValue<KeyBind>().Active)
-                                E.Cast(correctThisPosition(Game.CursorPos.To2D(), closestToPosition(Game.CursorPos)));
-                            ECasted = true;
-                            
-                            Q.CastOnUnit(myQTarget.barrel);
+                            if (isEQ)
+                            {
 
+                                if (myQTarget.barrel.Distance(Game.CursorPos) > BarrelConnectionRange) E.Cast(correctThisPosition(Game.CursorPos.To2D(), myQTarget));
+                                else E.Cast(Game.CursorPos);
+                                ECasted = true;
+                                Q.CastOnUnit(myQTarget.barrel);
+
+                            }
+                            else Q.CastOnUnit(myQTarget.barrel);
 
                         }
                     }
@@ -188,11 +197,17 @@ namespace AssemblySkeleton
 
                         if (time < kappaHD)
                         {
-                            if (!Menu.Item("CastQ").GetValue<KeyBind>().Active)
-                                E.Cast(correctThisPosition(Game.CursorPos.To2D(), closestToPosition(Game.CursorPos)));
-                            ECasted = true;
-                            Q.CastOnUnit(myQTarget.barrel);
-                            
+                            if (isEQ)
+                            {
+
+                                if (myQTarget.barrel.Distance(Game.CursorPos) > BarrelConnectionRange) E.Cast(correctThisPosition(Game.CursorPos.To2D(), myQTarget));
+                                else E.Cast(Game.CursorPos);
+                                ECasted = true;
+                                Q.CastOnUnit(myQTarget.barrel);
+
+                            }
+                            else Q.CastOnUnit(myQTarget.barrel);
+
 
                         }
                     }
@@ -343,7 +358,7 @@ namespace AssemblySkeleton
             {
                 if (mouseToClosestBarrel > BarrelConnectionRange*2 && mouseToClosestBarrel < maxSearchRange && correctThisPosition(Game.CursorPos.To2D(), closestToPosition(Game.CursorPos)).Distance(Game.CursorPos) <= correctionRange  && savedBarrels.Count > 0 && !isEQ)
                 {
-                   
+                    Game.PrintChat("ok");
                     args.Process = false;
                     Spellbook.OnCastSpell -= Game_OnCastSpell;
                     E.Cast(correctThisPosition(Game.CursorPos.To2D(), closestToPosition(Game.CursorPos)));
