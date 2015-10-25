@@ -66,7 +66,14 @@ namespace Leplank
         public static void _DebugZone (EventArgs args)
         {
 
-            
+            //Debug2
+
+            //Ici si on est en combo, il va Q le barril le plus proche du joueur pour attendre le barril le plus proche de la souris
+           if(Menus._orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+            {
+                Program.Q.CastOnUnit(giveClosestToChainToBarrel(Program.Player.Position, closestToPosition(Game.CursorPos)).barrel);
+                
+            }
 
         }
 
@@ -78,6 +85,11 @@ namespace Leplank
             {
                 Game.PrintChat("Dans la chaine portant l'index " + i.ToString() + " il y'a " + barrelChains[i].Count.ToString() + " barrils");
             }
+
+
+
+           
+
         }
         #endregion Debug&TestsZone
 
@@ -192,6 +204,37 @@ namespace Leplank
             double aY = Math.Round(barrelToConnect.barrel.Position.Y + vY / magV * 680);
             Vector2 newPosition = new Vector2(Convert.ToInt32(aX), Convert.ToInt32(aY));
             return newPosition;
+        }
+
+        //Donne le barril le plus proche d'une position pour enchainer jusuqu'au barril donné
+        public static Barrel giveClosestToChainToBarrel(Vector3 closestToThisPosition, Barrel barrelToChainTo)
+        {
+            Barrel closest = null;
+            //Cherche la chaine contenant ce barril
+            for (int i=0;i<barrelChains.Count;i++)
+            {
+                if (barrelChains[i].Contains(barrelToChainTo))
+                {
+                    for (int k=0;k<barrelChains[i].Count;k++)
+                    {
+                        if (barrelChains[i].Count() == 0)
+                            return null;
+                        float bestSoFar = -1;
+
+
+                        for (int j = 0; j < barrelChains[i].Count; j++)
+                        {
+                            if (bestSoFar == -1 || barrelChains[i][j].barrel.Distance(closestToThisPosition) < bestSoFar)
+                            {
+                                bestSoFar = barrelChains[i][j].barrel.Distance(closestToThisPosition);
+                                closest = barrelChains[i][j];
+                            }
+                        }
+                    }
+                }
+            }
+            return closest;
+
         }
         #endregion MiscFonction
 
