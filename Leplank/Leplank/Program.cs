@@ -15,7 +15,7 @@ namespace Leplank
     class Program
     {
         #region declarations
-        static Obj_AI_Hero Player { get { return ObjectManager.Player; } }
+        public static Obj_AI_Hero Player { get { return ObjectManager.Player; } }
         private static Spell Q, W, E, R;
         static string champName = "Gangplank";
         public const string version = "1.0.0.0";
@@ -36,7 +36,8 @@ namespace Leplank
             GameObject.OnCreate += BarrelsManager._OnCreate;
             Game.OnUpdate += BarrelsManager._OnDelete;
             Game.OnUpdate += BarrelsManager._DebugZone;
-            int a = 123;
+            Game.OnUpdate += Gangplank._Orbwalking;
+
         }
 
 
