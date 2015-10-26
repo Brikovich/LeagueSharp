@@ -37,7 +37,7 @@ namespace Leplank
             {
                 savedBarrels.Add(new Barrel(sender as Obj_AI_Minion, Environment.TickCount));
                 chainManagerOnCreate();
-                debugBarrels(); //Debug
+                //debugBarrels(); //Debug
             }
             
 
@@ -54,7 +54,7 @@ namespace Leplank
                 {
                     chainManagerOnDelete(savedBarrels[i]);
                     savedBarrels.RemoveAt(i);
-                    debugBarrels(); //Debug
+                    //debugBarrels(); //Debug
                     return;
                 }
                 
@@ -65,6 +65,7 @@ namespace Leplank
 
         #region Debug&TestsZone
         //Debug zone (for tests)
+        /*
         public static void _DebugZone (EventArgs args)
         {
 
@@ -82,7 +83,7 @@ namespace Leplank
             }
            
 
-        }
+        }*/
         #endregion Debug&TestsZone
 
         #region ChainManager

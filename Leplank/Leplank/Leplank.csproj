@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarrelsManager.cs" />
+    <Compile Include="Drawings.cs" />
     <Compile Include="Gangplank.cs" />
     <Compile Include="ExplosionPrediction.cs" />
     <Compile Include="Menus.cs" />

@@ -17,6 +17,10 @@ namespace Leplank
         #region declarations
         public static Obj_AI_Hero Player { get { return ObjectManager.Player; } }
         public static Spell Q, W, E, R;
+        public static int Rzone;
+        public static int RdeathDaughter;
+        public static int Ezone;
+        public static int Econnection;
         static string champName = "Gangplank";
         public const string version = "1.0.0.0";
         #endregion declarations
@@ -38,6 +42,10 @@ namespace Leplank
             E = new Spell(SpellSlot.E, 980);
             R = new Spell(SpellSlot.R);
             R.SetSkillshot(0.9f, 100, float.MaxValue, false, SkillshotType.SkillshotCircle);
+            Rzone = 500;
+            RdeathDaughter = 200;
+            Ezone = 340;
+            Econnection = 680;
             #endregion
 
             Game.PrintChat("<b><font color='#8A008A'>Le</font><font color='#FF6600'>plank</font></b> " + version + " loaded - By <font color='#6666FF'>Brikovich</font> & <font color='#6666FF'>Baballev</font>");
@@ -47,8 +55,9 @@ namespace Leplank
             //Events
             GameObject.OnCreate += BarrelsManager._OnCreate;
             Game.OnUpdate += BarrelsManager._OnDelete;
-            Game.OnUpdate += BarrelsManager._DebugZone;
+            //Game.OnUpdate += BarrelsManager._DebugZone;
             Game.OnUpdate += Gangplank._Orbwalking;
+            Drawing.OnDraw += Drawings._OnDraw;
 
         }
 

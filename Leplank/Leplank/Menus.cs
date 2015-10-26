@@ -87,10 +87,27 @@ namespace Leplank
             itemManagerMenu.AddItem(new MenuItem("Leplank.item.hydra", "Use Ravenous Hydra").SetTooltip("Use Hydra to clear and in Combo").SetValue(true));
             itemManagerMenu.AddItem(new MenuItem("Leplank.item.tiamat", "Use Tiamat").SetTooltip("Use Tiamat to clear and in Combo").SetValue(true));
             // Drawing Menu
-            Menu drawingMenu = new Menu("Drawing", "Leplank.drawing");
-            drawingMenu.AddItem(new MenuItem("Leplank.drawing.enabled", "Enabled").SetTooltip("If off, will block Leplank drawings").SetValue(true));
-            drawingMenu.AddItem(new MenuItem("Leplank.drawing.q", "Draw Q range").SetValue(true));
-            drawingMenu.AddItem(new MenuItem("Leplank.drawing.e", "Draw E range").SetValue(true));
+            Menu drawingMenu = new Menu("Drawings", "Leplank.drawing");
+            drawingMenu.AddItem(new MenuItem("Leplank.drawing.enabled", "Enabled").SetTooltip("If off, will block ALL Leplank drawings").SetValue(true));
+            drawingMenu.AddItem(new MenuItem("Leplank.drawing.q", "Draw Q range").SetValue(new Circle(true, Color.DarkBlue)));
+            drawingMenu.AddItem(new MenuItem("Leplank.drawing.e", "Draw E range").SetValue(new Circle(true, Color.DarkGreen)));
+            drawingMenu.AddItem(new MenuItem("Leplank.drawing.w", "Draw W on healthbar").SetValue(new Circle(true, Color.Orange)));
+            drawingMenu.AddItem(new MenuItem("Leplank.drawing.r", "Draw R zone").SetValue(new Circle(true, Color.Black)));
+            drawingMenu.AddItem(new MenuItem("Leplank.drawing.onlyReady", "Draw only ready").SetValue(true));
+
+            //Barrel assistant
+            Menu barrelAssistant = new Menu("Barrels assistant™", "Leplank.barrelassistant");
+            barrelAssistant.AddItem(new MenuItem("Leplank.assistant.enabled", "Enabled").SetValue(true));
+            barrelAssistant.AddItem(new MenuItem("Leplank.assistant.DrawEConnection", "Draw E connection line helper").SetTooltip("Green line = barrels will connect, Red line = barrels won't connect").SetValue(true));
+            barrelAssistant.AddItem(new MenuItem("Leplank.assistant.DrawECircle", "Draw E connection circle helper").SetTooltip("Green Circle = barrels will connect, Red Circle = barrels won't connect").SetValue(true));
+            barrelAssistant.AddItem(new MenuItem("Leplank.assistant.DrawEZone", "Draw E zone").SetValue(new Circle(true, Color.Gray)));
+            barrelAssistant.AddItem(new MenuItem("Leplank.assistant.DrawExtended", "Draw E extension").SetValue(new Circle(true, Color.White)));
+            barrelAssistant.AddItem(new MenuItem("Leplank.assistant.DrawEBConnection", "Draw barrels chains circles").SetValue(new Circle(true, Color.ForestGreen)));
+            barrelAssistant.AddItem(new MenuItem("Leplank.assistant.Thickness", "Lines thickness").SetValue(new Slider(3, 1, 20)));
+            barrelAssistant.AddItem(new MenuItem("Leplank.assistant.MaxRange", "Drawings max range").SetTooltip("Max mouse distance from player to draw helpers on mouse").SetValue(new Slider(2000, 100, 5000)));
+
+            drawingMenu.AddSubMenu(barrelAssistant);
+
 
             _menu.AddSubMenu(orbwalkerMenu);
             _menu.AddSubMenu(targetSelectorMenu);
@@ -114,6 +131,15 @@ namespace Leplank
         public static bool GetBool(string name)
         {
             return _menu.Item(name).GetValue<bool>();
+        }
+        public static bool GetColorBool(string name)
+        {
+            return _menu.Item(name).GetValue<Circle>().Active;
+        }
+
+        public static Color GetColor(string name)
+        {
+            return _menu.Item(name).GetValue<Circle>().Color;
         }
 
         public static int GetSlider(string name)
