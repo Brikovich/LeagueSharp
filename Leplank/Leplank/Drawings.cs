@@ -100,7 +100,7 @@ namespace Leplank
                     }
 
                     //Connection Line helper
-                    if (Menus.GetBool("Leplank.assistant.DrawEConnection") && Program.Player.Distance(Game.CursorPos) <= Menus.GetSlider("Leplank.assistant.MaxRange") && Game.CursorPos.Distance(BarrelsManager.closestToPosition(Game.CursorPos).barrel.Position) <= Program.Econnection+200)
+                    if (Menus.GetBool("Leplank.assistant.DrawEConnection") && Program.Player.Distance(Game.CursorPos) <= Menus.GetSlider("Leplank.assistant.MaxRange") && Game.CursorPos.Distance(BarrelsManager.closestToPosition(Game.CursorPos).barrel.Position) <= Program.Econnection+200 && BarrelsManager.savedBarrels.Count > 0)
                     {
                         Assisting = true;
                         if (BarrelsManager.closestToPosition(Game.CursorPos).barrel.Distance(Game.CursorPos) <= Program.Econnection)
@@ -115,11 +115,11 @@ namespace Leplank
                     }
 
                     //E extension
-                    if (Menus.GetColorBool("Leplank.assistant.DrawExtended") && Program.Player.Distance(Game.CursorPos) <= Menus.GetSlider("Leplank.assistant.MaxRange") && Game.CursorPos.Distance(BarrelsManager.closestToPosition(Game.CursorPos).barrel.Position) <= Program.Econnection + 200)
+                    if (Menus.GetColorBool("Leplank.assistant.DrawExtended") && Program.Player.Distance(Game.CursorPos) <= Menus.GetSlider("Leplank.assistant.MaxRange") && Game.CursorPos.Distance(BarrelsManager.closestToPosition(Game.CursorPos).barrel.Position) <= Program.Econnection + 200 && BarrelsManager.savedBarrels.Count > 0)
                         Render.Circle.DrawCircle(BarrelsManager.closestToPosition(Game.CursorPos).barrel.Position, Program.Econnection+Program.Ezone, Menus.GetColor("Leplank.assistant.DrawExtended"), Menus.GetSlider("Leplank.assistant.Thickness"));
 
                     //Re-draw barrels connections
-                    if (Menus.GetColorBool("Leplank.assistant.DrawEBConnection") && BarrelsManager.barrelChains.Count > 0)
+                    if (Menus.GetColorBool("Leplank.assistant.DrawEBConnection") && BarrelsManager.barrelChains.Count > 0 && BarrelsManager.savedBarrels.Count > 0)
                     {
                         for (int i = 0; i < BarrelsManager.barrelChains.Count; i++)
                         {
