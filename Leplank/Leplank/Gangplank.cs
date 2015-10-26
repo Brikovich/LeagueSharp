@@ -36,6 +36,8 @@ namespace Leplank
                     break;
             }
           #endregion Orbwalker modes
+
+            WManager();
         }
 
         private static void Combo()
@@ -70,6 +72,48 @@ namespace Leplank
             }
         }
 
+        private static void WManager()
+        {
+            if (!Program.W.IsReady() || Program.Player.InFountain() || Program.Player.IsRecalling())
+            {
+                return;
+            }
+            #region Cleanser
+            if (Menus.GetBool("Leplank.cleansermanager.enabled"))
+            {
+               if ((
+                    (Program.Player.HasBuffOfType(BuffType.Charm) && Menus.GetBool("Leplank.cleansermanager.charm"))
+                    || (Program.Player.HasBuffOfType(BuffType.Flee) && Menus.GetBool("Leplank.cleansermanager.flee"))
+                    || (Program.Player.HasBuffOfType(BuffType.Polymorph) && Menus.GetBool("Leplank.cleansermanager.polymorph"))
+                    || (Program.Player.HasBuffOfType(BuffType.Snare) && Menus.GetBool("Leplank.cleansermanager.snare"))
+                    || (Program.Player.HasBuffOfType(BuffType.Stun) && Menus.GetBool("Leplank.cleansermanager.stun"))
+                    || (Program.Player.HasBuffOfType(BuffType.Taunt) && Menus.GetBool("Leplank.cleansermanager.taunt"))
+                    || (Program.Player.HasBuff("summonerexhaust") && Menus.GetBool("Leplank.cleansermanager.exhaust"))
+                    || (Program.Player.HasBuffOfType(BuffType.Suppression) && Menus.GetBool("Leplank.cleansermanager.suppression"))
+                   ) && Program.Player.ManaPercent >= Menus.GetSlider("Leplank.cleansermanager.mana"))
+               {
+                   Utility.DelayAction.Add(Menus.GetSlider("Leplank.cleansermanager.delay") + Game.Ping, () =>
+                   {
+                       Program.W.Cast();
+                   });
+               }
+            }
+            #endregion Cleanser
+
+            #region Healer
+            if (Program.Player.HealthPercent <= Menus.GetSlider("Leplank.misc.healmin") &&
+                Program.Player.ManaPercent >= Menus.GetSlider("Leplank.misc.healminmana"))
+            {
+                Utility.DelayAction.Add(100 + Game.Ping, () =>
+                {
+                    Program.W.Cast();
+                }
+                );
+            }
+            #endregion Healer
+        }
+        
+    
 
     }
 }

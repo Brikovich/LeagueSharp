@@ -64,8 +64,8 @@ namespace Leplank
             // Misc Menu
             var miscMenu = new Menu("Misc", "Leplank");
             miscMenu.AddItem(new MenuItem("Leplank.misc.wheal", "Use W to heal").SetTooltip("Enable auto W heal(won't cancel recall if low)").SetValue(true));
-            miscMenu.AddItem(new MenuItem("Leplank.misc.healmin", "Health %").SetTooltip("If under, will use W").SetValue(new Slider(30)));
-            miscMenu.AddItem(new MenuItem("Leplank.misc.healminmana", "Minimum Mana %").SetTooltip("Minimum mana to use W heal").SetValue(new Slider(35)));
+            miscMenu.AddItem(new MenuItem("Leplank.misc.healmin", "Health %").SetValue(new Slider(25, 0, 100)));
+            miscMenu.AddItem(new MenuItem("Leplank.misc.healminmana", "Minimum Mana %").SetTooltip("Minimum mana to use W heal").SetValue(new Slider(20, 0, 100)));
             miscMenu.AddItem(new MenuItem("Leplank.misc.qks", "Q to KillSecure").SetValue(true));
             miscMenu.AddItem(new MenuItem("Leplank.misc.rksnotif", "R killable notification").SetValue(true));
             miscMenu.AddItem(new MenuItem("Leplank.misc.fleekey", "Flee").SetValue(new KeyBind(65, KeyBindType.Press)));
