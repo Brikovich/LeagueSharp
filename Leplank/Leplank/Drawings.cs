@@ -119,7 +119,7 @@ namespace Leplank
                         Render.Circle.DrawCircle(BarrelsManager.closestToPosition(Game.CursorPos).barrel.Position, Program.Econnection+Program.Ezone, Menus.GetColor("Leplank.assistant.DrawExtended"), Menus.GetSlider("Leplank.assistant.Thickness"));
 
                     //Re-draw barrels connections
-                    if (Menus.GetColorBool("Leplank.assistant.DrawEBConnection"))
+                    if (Menus.GetColorBool("Leplank.assistant.DrawEBConnection") && BarrelsManager.barrelChains.Count > 0)
                     {
                         for (int i = 0; i < BarrelsManager.barrelChains.Count; i++)
                         {
