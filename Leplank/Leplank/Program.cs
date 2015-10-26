@@ -30,7 +30,7 @@ namespace Leplank
 
         private static void Game_OnGameLoad(EventArgs args)
         {
-
+            if (champName != Player.ChampionName) return;
             #region Spells
             Q = new Spell(SpellSlot.Q, 610);
             Q.SetTargetted(0.25f, 2150f);
