@@ -51,6 +51,7 @@ namespace Leplank
             var cleanserManagerMenu = new Menu("W cleanser", "Leplank.cleansermanager");
             cleanserManagerMenu.AddItem(new MenuItem("Leplank.cleansermanager.enabled", "Enabled").SetValue(true));
             cleanserManagerMenu.AddItem(new MenuItem("Leplank.cleansermanager.mana", "Minimum mana").SetValue(new Slider(10, 0, 100)));
+            cleanserManagerMenu.AddItem(new MenuItem("Leplank.cleansermanager.health", "Maximum Health to use W").SetTooltip("If above won't use W cleanser").SetValue(new Slider(100, 0, 100)));
             cleanserManagerMenu.AddItem(new MenuItem("Leplank.cleansermanager.delay", "Dealay (ms)").SetValue(new Slider(100, 0, 500)));
             cleanserManagerMenu.AddItem(new MenuItem("Leplank.cleansermanager.separation2", "Buff Types: "));
             cleanserManagerMenu.AddItem(new MenuItem("Leplank.cleansermanager.charm", "Charm").SetValue(true));

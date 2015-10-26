@@ -90,7 +90,7 @@ namespace Leplank
                     || (Program.Player.HasBuffOfType(BuffType.Taunt) && Menus.GetBool("Leplank.cleansermanager.taunt"))
                     || (Program.Player.HasBuff("summonerexhaust") && Menus.GetBool("Leplank.cleansermanager.exhaust"))
                     || (Program.Player.HasBuffOfType(BuffType.Suppression) && Menus.GetBool("Leplank.cleansermanager.suppression"))
-                   ) && Program.Player.ManaPercent >= Menus.GetSlider("Leplank.cleansermanager.mana"))
+                   ) && Program.Player.ManaPercent >= Menus.GetSlider("Leplank.cleansermanager.mana") && Program.Player.HealthPercent < Menus.GetSlider("Leplank.cleansermanager.health"))
                {
                    Utility.DelayAction.Add(Menus.GetSlider("Leplank.cleansermanager.delay") + Game.Ping, () =>
                    {
