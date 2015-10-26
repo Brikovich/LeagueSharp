@@ -16,7 +16,7 @@ namespace Leplank
             {
                 return;
             }
-
+            #region Orbwalker modes
             var activeOrbwalker = Menus._orbwalker.ActiveMode;
             switch (activeOrbwalker)
             {
@@ -35,6 +35,7 @@ namespace Leplank
                 case Orbwalking.OrbwalkingMode.None:
                     break;
             }
+          #endregion Orbwalker modes
         }
 
         private static void Combo()
@@ -54,7 +55,19 @@ namespace Leplank
 
         private static void LastHit()
         {
-            
+            var minionlhtarget =
+                MinionManager.GetMinions(Program.Q.Range, MinionTypes.All, MinionTeam.NotAlly)
+                    .Where(
+                        mlh =>
+                            mlh.SkinName != "GangplankBarrel" && // It makes the program check if it's not a barrel because Powder Kegs 
+                            mlh.Health < Program.Player.GetSpellDamage(mlh, SpellSlot.Q)) // are considered as Obj ai minions so it may cause some bugs if not checked
+                    .OrderByDescending(mlh => mlh.Distance(Program.Player)) // Prioritize minions that's are far from the player
+                    .FirstOrDefault();
+            if (Menus.GetBool("Leplank.lh.q") && Program.Player.ManaPercent >= Menus.GetSlider("Leplank.lh.qmana") &&
+                Program.Q.IsReady() && minionlhtarget != null) // Check config
+            {
+                Program.Q.CastOnUnit(minionlhtarget);
+            }
         }
 
 

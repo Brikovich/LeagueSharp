@@ -23,8 +23,8 @@ namespace Leplank
             TargetSelector.AddToMenu(targetSelectorMenu);
             // Combo Menu
             var comboMenu = new Menu("Combo", "Leplank.combo");
-            comboMenu.AddItem(new MenuItem("Leplank.combo.q", "Use Q"));
-            comboMenu.AddItem(new MenuItem("Leplank.combo.e", "Use E"));
+            comboMenu.AddItem(new MenuItem("Leplank.combo.q", "Use Q").SetValue(true));
+            comboMenu.AddItem(new MenuItem("Leplank.combo.e", "Use E").SetValue(true));
             comboMenu.AddItem(new MenuItem("Leplank.combo.r", "Use R").SetValue(true));
             comboMenu.AddItem(new MenuItem("Leplank.combo.rmin", "Minimum enemies to cast R").SetTooltip("Minimum enemies to hit with R in combo").SetValue(new Slider(2, 1, 5)));
             // Harass Menu
@@ -40,8 +40,8 @@ namespace Leplank
             laneclearMenu.AddItem(new MenuItem("Leplank.lc.qonecmana", "Minimum mana to use Q on E").SetValue(new Slider(5, 0, 100)));
             // Lasthit Menu
             var lasthitMenu = new Menu("Lasthit", "Leplank.lh");
-            lasthitMenu.AddItem(new MenuItem("Leplank.lh.qlh", "Use Q").SetValue(true));
-            lasthitMenu.AddItem(new MenuItem("Leplank.lh.qlhmana", "Minimum mana for Q lasthit").SetValue(new Slider(5, 0, 100)));
+            lasthitMenu.AddItem(new MenuItem("Leplank.lh.q", "Use Q").SetValue(true));
+            lasthitMenu.AddItem(new MenuItem("Leplank.lh.qmana", "Minimum mana for Q lasthit").SetValue(new Slider(5, 0, 100)));
             // Barrel Manager 
             var barrelManagerMenu = new Menu("Barrel Manager", "Leplank.barrelmanager");
             barrelManagerMenu.AddItem(new MenuItem("Leplank.barrelmanager.edisabled", "Block E usage").SetValue(false));
@@ -81,11 +81,7 @@ namespace Leplank
             potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.biscuithealth", "Health %").SetValue(new Slider(35, 0, 100)));
             potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.cryst", "Crystalline Flask").SetValue(true));
             potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.crysthealth", "Health %").SetValue(new Slider(40, 0, 100)));
-            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.crystmana", "Mana %").SetValue(new Slider(40, 0, 100)));
-
-
-
-            
+            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.crystmana", "Mana %").SetValue(new Slider(40, 0, 100)));        
 
             itemManagerMenu.AddItem(new MenuItem("Leplank.item.youmuu", "Use Youmuu's Ghostblade").SetTooltip("Use Youmuu in Combo").SetValue(true));
             itemManagerMenu.AddItem(new MenuItem("Leplank.item.hydra", "Use Ravenous Hydra").SetTooltip("Use Hydra to clear and in Combo").SetValue(true));
@@ -107,12 +103,25 @@ namespace Leplank
             _menu.AddSubMenu(cleanserManagerMenu);
             _menu.AddSubMenu(itemManagerMenu);
 
-            itemManagerMenu.AddSubMenu(potionManagerMenu);
-            itemManagerMenu.AddSubMenu(potionManagerMenu);         
+            itemManagerMenu.AddSubMenu(potionManagerMenu);        
 
             _menu.AddSubMenu(drawingMenu);
             _menu.AddToMainMenu();
         }
+
+        #region GetValues
+
+        public static bool GetBool(string name)
+        {
+            return _menu.Item(name).GetValue<bool>();
+        }
+
+        public static int GetSlider(string name)
+        {
+            return _menu.Item(name).GetValue<Slider>().Value;
+        }
+
+        #endregion GetValues
     }
 
 }
