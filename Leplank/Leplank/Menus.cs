@@ -43,7 +43,7 @@ namespace Leplank
             lasthitMenu.AddItem(new MenuItem("Leplank.lh.q", "Use Q").SetValue(true));
             lasthitMenu.AddItem(new MenuItem("Leplank.lh.qmana", "Minimum mana for Q lasthit").SetValue(new Slider(5, 0, 100)));
             // Barrel Manager 
-            var barrelManagerMenu = new Menu("Barrel Manager", "Leplank.barrelmanager");
+            var barrelManagerMenu = new Menu("Barrel Manager", "Leplank.misc.barrelmanager");
             barrelManagerMenu.AddItem(new MenuItem("Leplank.barrelmanager.edisabled", "Block E usage").SetValue(false));
             barrelManagerMenu.AddItem(new MenuItem("Leplank.barrelmanager.estacks", "Number of stacks to keep").SetTooltip("If Set to 0, it won't keep any stacks").SetValue(new Slider(1, 0, 4)));
             barrelManagerMenu.AddItem(new MenuItem("Leplank.barrelmanager.autoexplode", "Auto explode when enemy in explosion range").SetValue(true));
@@ -63,13 +63,17 @@ namespace Leplank
             cleanserManagerMenu.AddItem(new MenuItem("Leplank.cleansermanager.exhaust", "Exhaust").SetTooltip("Will only remove Slow").SetValue(false));
             cleanserManagerMenu.AddItem(new MenuItem("Leplank.cleansermanager.suppression", "Supression").SetValue(true));
             // Misc Menu
-            var miscMenu = new Menu("Misc", "Leplank");
-            miscMenu.AddItem(new MenuItem("Leplank.misc.wheal", "Use W to heal").SetTooltip("Enable auto W heal(won't cancel recall if low)").SetValue(true));
-            miscMenu.AddItem(new MenuItem("Leplank.misc.healmin", "Health %").SetValue(new Slider(25, 0, 100)));
-            miscMenu.AddItem(new MenuItem("Leplank.misc.healminmana", "Minimum Mana %").SetTooltip("Minimum mana to use W heal").SetValue(new Slider(20, 0, 100)));
-            miscMenu.AddItem(new MenuItem("Leplank.misc.qks", "Q to KillSecure").SetValue(true));
+            var miscMenu = new Menu("Misc", "Leplank.misc");
+
             miscMenu.AddItem(new MenuItem("Leplank.misc.rksnotif", "R killable notification").SetValue(true));
             miscMenu.AddItem(new MenuItem("Leplank.misc.fleekey", "Flee").SetValue(new KeyBind(65, KeyBindType.Press)));
+            // Auto Events
+            var eventsMenu = new Menu("Events", "Leplank.misc.events");
+            eventsMenu.AddItem(new MenuItem("Leplank.misc.events.qlhtoggle", "Q LastHit toggle").SetValue(new KeyBind(66, KeyBindType.Toggle)));
+            eventsMenu.AddItem(new MenuItem("Leplank.misc.events.wheal", "Use W to heal").SetTooltip("Enable auto W heal(won't cancel recall if low)").SetValue(true));
+            eventsMenu.AddItem(new MenuItem("Leplank.misc.events.healmin", "Health %").SetValue(new Slider(25, 0, 100)));
+            eventsMenu.AddItem(new MenuItem("Leplank.misc.events.healminmana", "Minimum Mana %").SetTooltip("Minimum mana to use W heal").SetValue(new Slider(20, 0, 100)));
+            eventsMenu.AddItem(new MenuItem("Leplank.misc.events.qks", "Q to KillSecure").SetValue(true));
             // Items Manager Menu
             var itemManagerMenu = new Menu("Items Manager", "Leplank.item");
             var potionManagerMenu = new Menu("Potions", "Leplank.item.potion");
@@ -107,22 +111,20 @@ namespace Leplank
             barrelAssistant.AddItem(new MenuItem("Leplank.assistant.Thickness", "Lines thickness").SetValue(new Slider(3, 1, 20)));
             barrelAssistant.AddItem(new MenuItem("Leplank.assistant.MaxRange", "Drawings max range").SetTooltip("Max mouse distance from player to draw helpers on mouse").SetValue(new Slider(2000, 100, 5000)));
 
-            drawingMenu.AddSubMenu(barrelAssistant);
-
-
             _menu.AddSubMenu(orbwalkerMenu);
             _menu.AddSubMenu(targetSelectorMenu);
             _menu.AddSubMenu(comboMenu);
             _menu.AddSubMenu(harassMenu);
             _menu.AddSubMenu(laneclearMenu);
             _menu.AddSubMenu(lasthitMenu);
-            _menu.AddSubMenu(barrelManagerMenu);
             _menu.AddSubMenu(miscMenu);
+            miscMenu.AddSubMenu(barrelManagerMenu);
+            miscMenu.AddSubMenu(eventsMenu);
+
             _menu.AddSubMenu(cleanserManagerMenu);
             _menu.AddSubMenu(itemManagerMenu);
-
-            itemManagerMenu.AddSubMenu(potionManagerMenu);        
-
+            itemManagerMenu.AddSubMenu(potionManagerMenu);
+            drawingMenu.AddSubMenu(barrelAssistant);
             _menu.AddSubMenu(drawingMenu);
             _menu.AddToMainMenu();
         }

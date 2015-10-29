@@ -37,6 +37,10 @@ namespace Leplank
             }
           #endregion Orbwalker modes
 
+            if (Menus._menu.Item("Leplank.misc.events.qlhtoggle").GetValue<KeyBind>().Active)
+            {
+                LastHit();
+            }
             WManager();
         }
 
@@ -101,8 +105,8 @@ namespace Leplank
             #endregion Cleanser
 
             #region Healer
-            if (Program.Player.HealthPercent <= Menus.GetSlider("Leplank.misc.healmin") &&
-                Program.Player.ManaPercent >= Menus.GetSlider("Leplank.misc.healminmana"))
+            if (Menus.GetBool("Leplank.misc.events.wheal") && Program.Player.HealthPercent <= Menus.GetSlider("Leplank.misc.events.healmin") &&
+                Program.Player.ManaPercent >= Menus.GetSlider("Leplank.misc.events.healminmana"))
             {
                 Utility.DelayAction.Add(100 + Game.Ping, () =>
                 {
