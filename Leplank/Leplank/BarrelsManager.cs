@@ -170,7 +170,7 @@ namespace Leplank
         //Return closest barrel to a position
         public static Barrel closestToPosition(Vector3 position)
         {
-            if (savedBarrels.Count() == 0)
+            if (!savedBarrels.Any())
                 return null;
             Barrel closest = null;
             float bestSoFar = -1;
