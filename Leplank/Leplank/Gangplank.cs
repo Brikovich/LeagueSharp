@@ -62,7 +62,7 @@ namespace Leplank
                     .Where(
                         mlh =>
                             mlh.SkinName != "GangplankBarrel" && // It makes the program check if it's not a barrel because Powder Kegs 
-                            mlh.Health < Program.Player.GetSpellDamage(mlh, SpellSlot.Q)) // are considered as Obj ai minions so it may cause some bugs if not checked
+                            mlh.Health < DamageLib.GetQDamages(mlh)) // are considered as Obj ai minions so it may cause some bugs if not checked
                     .OrderByDescending(mlh => mlh.Distance(Program.Player)) // Prioritize minions that's are far from the player
                     .FirstOrDefault();
             if (Menus.GetBool("Leplank.lh.q") && Program.Player.ManaPercent >= Menus.GetSlider("Leplank.lh.qmana") &&
