@@ -15,30 +15,49 @@ namespace Leplank
         {
             float qdamages;
             if (Items.HasItem(3087) && Program.Player.HasBuff("itemstatikshankcharge") &&
-                Program.Player.GetBuffCount("itemstatikshankcharge") == 100)
+                Program.Player.GetBuffCount("itemstatikshankcharge") == 100) // Statik and 100 buffstacks
             {
                 qdamages =
                     (float)
                         Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
-                            20 + ((Program.Q.Level - 1)*25) + Program.Player.FlatPhysicalDamageMod + 100 - 30);
+                            20 + ((Program.Q.Level - 1)*25) + Program.Player.GetAutoAttackDamage(qTarget) + 100 - 30);
             }
             else
             {
                 qdamages =
                     (float)
                         Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
-                            20 + ((Program.Q.Level - 1)*25) + Program.Player.FlatPhysicalDamageMod);
+                            20 + ((Program.Q.Level - 1)*25) + Program.Player.GetAutoAttackDamage(qTarget));
             }
 
-            if (Program.Player.FlatCritChanceMod > 70)
+            if (Program.Player.FlatCritChanceMod > 70) // if critchance over 70%, it is considered as it will always crit
             {
                 qdamages =
                     (float)
                         Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
                             qdamages*Program.Player.FlatCritDamageMod);
             }
-            // WIP
-
+            if (Items.HasItem(3078) && Items.CanUseItem(3078)) // Trinity
+            {
+                qdamages =
+                  (float)
+                      Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
+                           qdamages + 2 * Program.Player.GetAutoAttackDamage(qTarget));
+            }
+            else if (Items.HasItem(3057) && Items.CanUseItem(3057)) // Sheen
+            {
+                qdamages =
+                    (float)
+                        Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
+                            qdamages + 1*Program.Player.GetAutoAttackDamage(qTarget));
+            }
+            else if (Items.HasItem(3025) && Items.CanUseItem(3025)) // Iceborn Gauntlet
+            {
+                qdamages =
+                    (float)
+                        Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
+                            qdamages + 1.25 * Program.Player.GetAutoAttackDamage(qTarget));
+            }
             return qdamages;
         }
 
@@ -58,12 +77,11 @@ namespace Leplank
             return rdamages;
         }
 
-        public static float GetEDamages(Obj_AI_Base eTarget, bool usingQ)
-        {
-            
+        //public static float GetEDamages(Obj_AI_Base eTarget, bool usingQ)
+       // {     
 
-            return Edamages;
-        }
+         //   return edamages;
+        //}
     }
 }
 
