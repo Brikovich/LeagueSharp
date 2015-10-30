@@ -11,6 +11,8 @@ namespace Leplank
 {
     class DamageLib
     {
+        public static float armorpene; //TODO 
+        public static float magicpene; // TODO
         public static float GetQDamages(Obj_AI_Base qTarget)
         {
             float qdamages;
