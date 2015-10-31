@@ -11,7 +11,7 @@ namespace Leplank
 {
     class DamageLib
     {
-
+        #region SpellDamages
         public static float GetQDamages(Obj_AI_Base qTarget)
         {
             float qdamages;
@@ -120,6 +120,7 @@ namespace Leplank
             return edamages;
         }
 
+        #endregion SpellDamages
         public static float GetComboDamages(Obj_AI_Base comboTarget)
         {
             float combodamages = GetEDamages(comboTarget, true) + GetRDamages(comboTarget);

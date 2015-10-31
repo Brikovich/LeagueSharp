@@ -20,10 +20,10 @@ namespace Leplank
                 #region SpellsDrawings
                 if (Menus.GetBool("Leplank.drawing.onlyReady"))
                 {
-                    if(Menus.GetColorBool("Leplank.drawing.q") && Program.Q.IsReady())
+                    if(Menus.GetColorBool("Leplank.drawing.q") && (Program.Q.IsReady() && Program.Q.Level > 0))
                         Render.Circle.DrawCircle(Program.Player.Position, Program.Q.Range, Menus.GetColor("Leplank.drawing.q"));
 
-                    if (Menus.GetColorBool("Leplank.drawing.e") && Program.E.IsReady())
+                    if (Menus.GetColorBool("Leplank.drawing.e") && (Program.E.IsReady() && Program.E.Level > 0))
                         Render.Circle.DrawCircle(Program.Player.Position, Program.E.Range, Menus.GetColor("Leplank.drawing.e"));
 
                     if(Menus.GetColorBool("Leplank.drawing.w") && Program.W.IsReady() && Program.Player.HealthPercent < 95)
@@ -37,7 +37,7 @@ namespace Leplank
                             Menus.GetColor("Leplank.drawing.w"));
                     }
 
-                    if (Menus.GetColorBool("Leplank.drawing.r") && Program.R.IsReady())
+                    if (Menus.GetColorBool("Leplank.drawing.r") && (Program.R.IsReady() && Program.R.Level > 0))
                     {
                         Render.Circle.DrawCircle(Game.CursorPos, Program.Rzone, Menus.GetColor("Leplank.drawing.r"));
                         if (Program.Player.HasBuff("GangplankRUpgrade2"))
