@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,7 @@ namespace Leplank
                 LastHit();
             }
             WManager();
+            Events();
         }
 
         private static void Combo()
@@ -185,8 +187,22 @@ namespace Leplank
             }
             #endregion Healer
         }
-        
-    
+
+        private static void Events()
+        {
+            if (Menus.GetBool("Leplank.misc.rksnotif") && Program.R.IsReady())
+            {
+                var rkstarget = HeroManager.Enemies.Where(k => k.Health < (DamageLib.GetRDamages(k)/2) && !k.IsDead).ToList();
+                var kappa = 0;
+                foreach (var ks in rkstarget)
+                {
+                    kappa ++;
+                    var pos = Drawing.WorldToScreen(Program.Player.Position);
+                    Drawing.DrawText(pos.X - Drawing.GetTextExtent(ks.ChampionName + " KILLABLE WITH R").Width, kappa *25 + pos.Y - Drawing.GetTextExtent(ks.ChampionName + " KILLABLE WITH R").Height, Color.DarkOrange, ks.ChampionName + " KILLABLE WITH R");
+                }
+            }
+
+        }
 
     }
 }
