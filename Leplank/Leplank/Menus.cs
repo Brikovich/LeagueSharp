@@ -37,16 +37,16 @@ namespace Leplank
             laneclearMenu.AddItem(new MenuItem("Leplank.lc.e", "Use E to Laneclear").SetTooltip("Also used in Jungle").SetValue(true));
             laneclearMenu.AddItem(new MenuItem("Leplank.lc.emin", "Minimum minions to use E").SetValue(new Slider(3, 1, 15)));
             laneclearMenu.AddItem(new MenuItem("Leplank.lc.qone", "Use Q on E").SetValue(true));
-            laneclearMenu.AddItem(new MenuItem("Leplank.lc.qonecmana", "Minimum mana to use Q on E").SetValue(new Slider(5, 0, 100)));
+            laneclearMenu.AddItem(new MenuItem("Leplank.lc.qonemana", "Minimum mana to use Q on E").SetValue(new Slider(5, 0, 100)));
             // Lasthit Menu
             var lasthitMenu = new Menu("Lasthit", "Leplank.lh");
             lasthitMenu.AddItem(new MenuItem("Leplank.lh.q", "Use Q").SetValue(true));
             lasthitMenu.AddItem(new MenuItem("Leplank.lh.qmana", "Minimum mana for Q lasthit").SetValue(new Slider(5, 0, 100)));
             // Barrel Manager 
             var barrelManagerMenu = new Menu("Barrel Manager", "Leplank.misc.barrelmanager");
-            barrelManagerMenu.AddItem(new MenuItem("Leplank.barrelmanager.edisabled", "Block E usage").SetValue(false));
-            barrelManagerMenu.AddItem(new MenuItem("Leplank.barrelmanager.estacks", "Number of stacks to keep").SetTooltip("If Set to 0, it won't keep any stacks").SetValue(new Slider(1, 0, 4)));
-            barrelManagerMenu.AddItem(new MenuItem("Leplank.barrelmanager.autoexplode", "Auto explode when enemy in explosion range").SetValue(true));
+            barrelManagerMenu.AddItem(new MenuItem("Leplank.misc.barrelmanager.edisabled", "Block E usage").SetValue(false));
+            barrelManagerMenu.AddItem(new MenuItem("Leplank.misc.barrelmanager.estacks", "Number of stacks to keep").SetTooltip("If Set to 0, it won't keep any stacks").SetValue(new Slider(1, 0, 4)));
+            barrelManagerMenu.AddItem(new MenuItem("Leplank.misc.barrelmanager.autoexplode", "Auto explode when enemy in explosion range").SetValue(true));
             // Cleanser W Manager Menu
             var cleanserManagerMenu = new Menu("W cleanser", "Leplank.cleansermanager");
             cleanserManagerMenu.AddItem(new MenuItem("Leplank.cleansermanager.enabled", "Enabled").SetValue(true));

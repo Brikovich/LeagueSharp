@@ -51,7 +51,76 @@ namespace Leplank
 
         private static void WaveClear()
         {
-            
+            var minionswc =
+                MinionManager.GetMinions(Program.Q.Range, MinionTypes.All, MinionTeam.NotAlly)
+                    .Where(mwc => mwc.SkinName != "GangplankBarrel")
+                    .OrderByDescending(mlh => mlh.Distance(Program.Player)).ToList();
+            // Items
+            if (Menus.GetBool("Leplank.item.hydra") &&
+                (MinionManager.GetMinions(ObjectManager.Player.ServerPosition, 390).Count > 2 ||
+                 MinionManager.GetMinions(ObjectManager.Player.ServerPosition, 390, MinionTypes.All, MinionTeam.Neutral)
+                     .Count >= 1) &&
+                Items.HasItem(3074) &&
+                Items.CanUseItem(3074))
+            {
+                Items.UseItem(3074); //hydra, range of active = 400
+            }
+            if (Menus.GetBool("Leplank.item.tiamat") &&
+                (MinionManager.GetMinions(ObjectManager.Player.ServerPosition, 390).Count > 2 ||
+                 MinionManager.GetMinions(ObjectManager.Player.ServerPosition, 390, MinionTypes.All, MinionTeam.Neutral)
+                     .Count >= 1) &&
+                Items.HasItem(3077) &&
+                Items.CanUseItem(3077))
+            {
+                Items.UseItem(3077); //tiamat, range of active = 400
+            }
+
+            if (Menus.GetBool("Leplank.misc.barrelmanager.edisabled") == false &&
+                Menus.GetBool("Leplank.lc.e") && Program.E.IsReady())
+            {
+                var posE = Program.E.GetCircularFarmLocation(minionswc, Program.EexplosionRange);
+                if (posE.MinionsHit >= Menus.GetSlider("Leplank.lc.emin") &&
+                    (!BarrelsManager.savedBarrels.Any() ||
+                     BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Distance(Program.Player) > Program.Q.Range) &&
+                    Program.E.Instance.Ammo > Menus.GetSlider("Leplank.misc.barrelmanager.estacks"))
+                {
+                    Program.E.Cast(posE.Position);
+                }
+                
+             
+            }
+
+            if (BarrelsManager.savedBarrels.Any() ||
+                BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Distance(Program.Player) <
+                Program.Q.Range + 100) // Extra range
+            {
+                var minionsInERange =
+                    MinionManager.GetMinions(
+                        BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Position,
+                        Program.EexplosionRange, MinionTypes.All, MinionTeam.NotAlly);
+
+                if (Menus.GetBool("Leplank.lc.qone") &&
+                    Program.Q.IsInRange(BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel) &&
+                    Program.Q.IsReady() && Program.Player.ManaPercent > Menus.GetSlider("Leplank.lc.qonemana"))               
+                {
+                    if ((Program.Q.Level >= 3 &&
+                         minionsInERange.Where(m => m.Health < DamageLib.GetEDamages(m, true)).ToList().Count >= 3) ||
+                        (Program.Q.Level == 2 &&
+                         minionsInERange.Where(m => m.Health < DamageLib.GetEDamages(m, true)).ToList().Count >= 2) ||
+                        (Program.Q.Level == 1 &&
+                         minionsInERange.Where(m => m.Health < DamageLib.GetEDamages(m, true)).ToList().Any()) ||
+                        (Program.Q.Level == 1 && minionsInERange.Count < 2))
+                    {
+                        ExplosionPrediction.castQ(BarrelsManager.closestToPosition(Program.Player.ServerPosition));
+                    }
+                }
+                if (!Program.Q.IsReady() &&
+                    Program.Player.Distance(BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel) <
+                    Program.Player.AttackRange)
+                {
+                    ExplosionPrediction.autoAttack(BarrelsManager.closestToPosition(Program.Player.ServerPosition));
+                }
+            }
         }
 
         private static void Mixed()

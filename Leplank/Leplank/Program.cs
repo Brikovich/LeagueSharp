@@ -21,6 +21,7 @@ namespace Leplank
         public static int RdeathDaughter;
         public static int Ezone;
         public static int Econnection;
+        public const float EexplosionRange = 340;
         static string champName = "Gangplank";
         public const string version = "1.0.0.0";
         #endregion declarations

@@ -43,21 +43,21 @@ namespace Leplank
                 qdamages =
                   (float)
                       Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
-                           qdamages + 2 * Program.Player.GetAutoAttackDamage(qTarget));
+                           qdamages + 2 * Program.Player.BaseAttackDamage);
             }
             else if (Items.HasItem(3057) && Items.CanUseItem(3057)) // Sheen
             {
                 qdamages =
                     (float)
                         Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
-                            qdamages + 1*Program.Player.GetAutoAttackDamage(qTarget));
+                            qdamages + 1*Program.Player.BaseAttackDamage);
             }
             else if (Items.HasItem(3025) && Items.CanUseItem(3025)) // Iceborn Gauntlet
             {
                 qdamages =
                     (float)
                         Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
-                            qdamages + 1.25 * Program.Player.GetAutoAttackDamage(qTarget));
+                            qdamages + 1.25 * Program.Player.BaseAttackDamage);
             }
             return qdamages;
         }
@@ -88,15 +88,15 @@ namespace Leplank
                     edamages =
                         (float)
                             Program.Player.CalcDamage(eTarget, Damage.DamageType.Physical,
-                                (30 + (30*Program.E.Level) + GetQDamages(eTarget))*1.4); // 40% armor ignored
+                                (30 + (30*Program.E.Level) + GetQDamages(eTarget))); // 40% armor ignored todo
                 }
                 else
                 {
                     edamages =
                         (float)
                             Program.Player.CalcDamage(eTarget, Damage.DamageType.Physical,
-                                (30 + (30*Program.E.Level) + Program.Player.GetAutoAttackDamage(eTarget))*1.4);
-                    // 40% armor ignored
+                                (30 + (30*Program.E.Level) + Program.Player.GetAutoAttackDamage(eTarget)));
+                    // 40% armor ignored todo
                 }
             }
             else
@@ -106,15 +106,15 @@ namespace Leplank
                     edamages =
                         (float)
                             Program.Player.CalcDamage(eTarget, Damage.DamageType.Physical,
-                                GetQDamages(eTarget)*1.4); // 40% armor ignored
+                                GetQDamages(eTarget)); // 40% armor ignored todo
                 }
                 else
                 {
                     edamages =
                         (float)
                             Program.Player.CalcDamage(eTarget, Damage.DamageType.Physical,
-                                Program.Player.GetAutoAttackDamage(eTarget)*1.4);
-                    // 40% armor ignored
+                                Program.Player.GetAutoAttackDamage(eTarget));
+                    // 40% armor ignored todo
                 }
             }
             return edamages;
