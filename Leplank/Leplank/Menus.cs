@@ -23,6 +23,7 @@ namespace Leplank
             TargetSelector.AddToMenu(targetSelectorMenu);
             // Combo Menu
             var comboMenu = new Menu("Combo", "Leplank.combo");
+            comboMenu.AddItem(new MenuItem("Leplank.combo.logic", "Combo mode").SetValue(new StringList(new []{"Classic", "Barrel lord™"})));
             comboMenu.AddItem(new MenuItem("Leplank.combo.q", "Use Q").SetValue(true));
             comboMenu.AddItem(new MenuItem("Leplank.combo.e", "Use E").SetValue(true));
             comboMenu.AddItem(new MenuItem("Leplank.combo.r", "Use R").SetValue(true));

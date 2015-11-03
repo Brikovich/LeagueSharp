@@ -21,14 +21,14 @@ namespace Leplank
                 qdamages =
                     (float)
                         Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
-                            20 + ((Program.Q.Level - 1)*25) + Program.Player.GetAutoAttackDamage(qTarget) + 100 - 30);
+                            20 + ((Program.Q.Level - 1)*25) + Program.Player.GetAutoAttackDamage(qTarget) + 100 - 40);
             }
             else
             {
                 qdamages =
                     (float)
                         Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
-                            20 + ((Program.Q.Level - 1)*25) + Program.Player.GetAutoAttackDamage(qTarget));
+                            20 + ((Program.Q.Level - 1)*25) + Program.Player.GetAutoAttackDamage(qTarget)-20);
             }
 
             if (Program.Player.FlatCritChanceMod > 70) // if critchance over 70%, it is considered as it will always crit
