@@ -20,6 +20,7 @@ namespace Leplank
         public static int Rzone;
         public static int RdeathDaughter;
         public static int Ezone;
+        public static int Estacks = E.Instance.Ammo;
         public static int Econnection;
         public const float EexplosionRange = 340;
         static string champName = "Gangplank";

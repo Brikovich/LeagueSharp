@@ -17,10 +17,25 @@ namespace Leplank
             {
                 return;
             }
+            #region ks notif
+            if (Menus.GetBool("Leplank.misc.rksnotif") && Program.R.IsReady())
+            {
+                var rkstarget = HeroManager.Enemies.Where(k => k.Health < (DamageLib.GetRDamages(k) / 2) && !k.IsDead).ToList();
+                var kappa = 0;
+                foreach (var ks in rkstarget)
+                {
+                    kappa++;
+                    var pos = Drawing.WorldToScreen(Program.Player.Position);
+                    Drawing.DrawText(pos.X - Drawing.GetTextExtent(ks.ChampionName + " KILLABLE WITH R").Width, kappa * 25 + pos.Y - Drawing.GetTextExtent(ks.ChampionName + " KILLABLE WITH R").Height, Color.DarkOrange, ks.ChampionName + " KILLABLE WITH R");
+
+                }
+                }
+            #endregion ks notif
             #region Orbwalker modes
             var activeOrbwalker = Menus._orbwalker.ActiveMode;
             switch (activeOrbwalker)
             {
+
                 case Orbwalking.OrbwalkingMode.Combo:
                     Combo();
                     break;
@@ -36,9 +51,9 @@ namespace Leplank
                 case Orbwalking.OrbwalkingMode.None:
                     break;
             }
-          #endregion Orbwalker modes
+            #endregion Orbwalker modes
 
-            if (Menus._menu.Item("Leplank.misc.events.qlhtoggle").GetValue<KeyBind>().Active)
+            if (Menus._menu.Item("Leplank.misc.events.qlhtoggle").GetValue<KeyBind>().Active) // toggle
             {
                 LastHit();
             }
@@ -48,7 +63,16 @@ namespace Leplank
 
         private static void Combo()
         {
-            
+            switch (Menus._menu.Item("Leplank.combo.logic").GetValue<StringList>().SelectedIndex)
+            {
+                case 0:
+                   Leplank.Combo.Classic();
+                break;
+                case 1:       
+                   Leplank.Combo.BarrelLord();
+                break;
+            }
+
         }
 
         private static void WaveClear()
@@ -57,6 +81,11 @@ namespace Leplank
                 MinionManager.GetMinions(Program.Q.Range, MinionTypes.All, MinionTeam.NotAlly)
                     .Where(mwc => mwc.SkinName != "GangplankBarrel")
                     .OrderByDescending(mlh => mlh.Distance(Program.Player)).ToList();
+            if (!minionswc.Any())
+            {
+                return;
+            }
+
             // Items
             if (Menus.GetBool("Leplank.item.hydra") &&
                 (MinionManager.GetMinions(ObjectManager.Player.ServerPosition, 390).Count > 2 ||
@@ -76,7 +105,26 @@ namespace Leplank
             {
                 Items.UseItem(3077); //tiamat, range of active = 400
             }
-
+            #region LasthitquntillE
+            if (Program.E.Level < 1 && Menus.GetBool("Leplank.lh.q") &&
+                Program.Player.ManaPercent >= Menus.GetSlider("Leplank.lh.qmana") && 
+                Program.Q.IsReady())
+            {
+                var minionlhtarget =
+                MinionManager.GetMinions(Program.Q.Range, MinionTypes.All, MinionTeam.NotAlly)
+                    .Where(
+                        mlh =>
+                            mlh.SkinName != "GangplankBarrel" && // It makes the program check if it's not a barrel because Powder Kegs 
+                            mlh.Health < DamageLib.GetQDamages(mlh)) // are considered as Obj ai minions so it may cause some bugs if not checked
+                    .OrderByDescending(mlh => mlh.Distance(Program.Player)) // Prioritize minions that's are far from the player
+                    .FirstOrDefault();
+                if (Menus.GetBool("Leplank.lh.q") && Program.Player.ManaPercent >= Menus.GetSlider("Leplank.lh.qmana") &&
+                    Program.Q.IsReady() && minionlhtarget != null) // Check config
+                {
+                    Program.Q.CastOnUnit(minionlhtarget);
+                }
+            }
+            #endregion LasthituntillE
             if (Menus.GetBool("Leplank.misc.barrelmanager.edisabled") == false &&
                 Menus.GetBool("Leplank.lc.e") && Program.E.IsReady())
             {
@@ -84,7 +132,7 @@ namespace Leplank
                 if (posE.MinionsHit >= Menus.GetSlider("Leplank.lc.emin") &&
                     (!BarrelsManager.savedBarrels.Any() ||
                      BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Distance(Program.Player) > Program.Q.Range) &&
-                    Program.E.Instance.Ammo > Menus.GetSlider("Leplank.misc.barrelmanager.estacks"))
+                    Program.Estacks > Menus.GetSlider("Leplank.misc.barrelmanager.estacks"))
                 {
                     Program.E.Cast(posE.Position);
                 }
@@ -103,7 +151,7 @@ namespace Leplank
 
                 if (Menus.GetBool("Leplank.lc.qone") &&
                     Program.Q.IsInRange(BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel) &&
-                    Program.Q.IsReady() && Program.Player.ManaPercent > Menus.GetSlider("Leplank.lc.qonemana"))               
+                    Program.Q.IsReady() && Program.Player.ManaPercent >= Menus.GetSlider("Leplank.lc.qonemana"))               
                 {
                     if ((Program.Q.Level >= 3 &&
                          minionsInERange.Where(m => m.Health < DamageLib.GetEDamages(m, true)).ToList().Count >= 3) ||
@@ -116,7 +164,7 @@ namespace Leplank
                         ExplosionPrediction.castQ(BarrelsManager.closestToPosition(Program.Player.ServerPosition));
                     }
                 }
-                if (!Program.Q.IsReady() &&
+                if ((!Program.Q.IsReady() || !Menus.GetBool("Leplank.lc.qone") || Program.Player.ManaPercent < Menus.GetSlider("Leplank.lc.qonemana")) &&
                     Program.Player.Distance(BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel) <
                     Program.Player.AttackRange)
                 {
@@ -190,17 +238,50 @@ namespace Leplank
 
         private static void Events()
         {
-            if (Menus.GetBool("Leplank.misc.rksnotif") && Program.R.IsReady())
+            #region Potions
+            if (Menus.GetBool("Leplank.item.potion.enabled") && !Program.Player.InFountain())
             {
-                var rkstarget = HeroManager.Enemies.Where(k => k.Health < (DamageLib.GetRDamages(k)/2) && !k.IsDead).ToList();
-                var kappa = 0;
-                foreach (var ks in rkstarget)
+                if (Menus.GetBool("Leplank.item.potion.hp") &&
+                Program.Player.HealthPercent <= Menus.GetSlider("Leplank.item.potion.hphealth") &&
+                Items.HasItem(2003))
                 {
-                    kappa ++;
-                    var pos = Drawing.WorldToScreen(Program.Player.Position);
-                    Drawing.DrawText(pos.X - Drawing.GetTextExtent(ks.ChampionName + " KILLABLE WITH R").Width, kappa *25 + pos.Y - Drawing.GetTextExtent(ks.ChampionName + " KILLABLE WITH R").Height, Color.DarkOrange, ks.ChampionName + " KILLABLE WITH R");
+                    if (!Program.Player.HasBuff("RegenerationPotion"))
+                    {
+                        Items.UseItem(2003);
+                    }
                 }
-            }
+                if (Menus.GetBool("Leplank.item.potion.mp") &&
+                    Program.Player.ManaPercent <= Menus.GetSlider("Leplank.item.potion.mana") &&
+                    Items.HasItem(2004))
+                {
+                    if (!Program.Player.HasBuff("FlaskOfCrystalWater"))
+                    {
+                        Items.UseItem(2004);
+                    }
+                }
+                if (Menus.GetBool("Leplank.item.potion.biscuit") &&
+                Program.Player.HealthPercent <= Menus.GetSlider("Leplank.item.potion.biscuithealth") &&
+                Items.HasItem(2010))
+                {
+                    if (!Program.Player.HasBuff("ItemMiniRegenPotion"))
+                    {
+                        Items.UseItem(2010);
+                    }
+                }
+                if (Menus.GetBool("Leplank.item.potion.cryst") &&
+                ((Program.Player.HealthPercent <= Menus.GetSlider("Leplank.item.potion.crysthealth") &&
+                Program.Player.ManaPercent <= Menus.GetSlider("Leplank.item.potion.crystmana")) ||
+                Program.Player.HealthPercent <= Menus.GetSlider("Leplank.item.potion.crysthealth") / 2 ||
+                Program.Player.ManaPercent <= Menus.GetSlider("Leplank.menu.item.potion.crystmana") / 2) &&
+                Items.HasItem(2041))
+                {
+                    if (!Program.Player.HasBuff("ItemCrystalFlask"))
+                    {
+                        Items.UseItem(2041);
+                    }
+                }
+        }
+            #endregion Potions
 
         }
 

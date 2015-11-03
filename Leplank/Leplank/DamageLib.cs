@@ -21,7 +21,7 @@ namespace Leplank
                 qdamages =
                     (float)
                         Program.Player.CalcDamage(qTarget, Damage.DamageType.Physical,
-                            20 + ((Program.Q.Level - 1)*25) + Program.Player.GetAutoAttackDamage(qTarget) + 100 - 40);
+                            20 + ((Program.Q.Level - 1)*25) + Program.Player.GetAutoAttackDamage(qTarget) + 100 - 30);
             }
             else
             {
@@ -62,18 +62,19 @@ namespace Leplank
             return qdamages;
         }
 
+        // OK, death daughter todo
         public static float GetRDamages(Obj_AI_Base rTarget)
         {
             float rdamages;
             if (Program.Player.HasBuff("gangplankrupgrade1"))
             {
                  rdamages = (float) Program.Player.CalcDamage(rTarget, Damage.DamageType.Magical,
-                   (30 + (20 * Program.R.Level) + (Program.Player.FlatMagicDamageMod * 0.1)) * 18);
+                   (540 + (360 * Program.R.Level) + (Program.Player.FlatMagicDamageMod * 1.8)));
             }
             else 
             {
-                rdamages = (float) Program.Player.CalcDamage(rTarget, Damage.DamageType.Magical,
-                    (30 + (20 * Program.R.Level) + (Program.Player.FlatMagicDamageMod * 0.1))* 12);
+                rdamages = (float)Program.Player.CalcDamage(rTarget, Damage.DamageType.Magical,
+                   (360 + (240 * Program.R.Level) + (Program.Player.FlatMagicDamageMod * 1.2)));
             }
             return rdamages;
         }

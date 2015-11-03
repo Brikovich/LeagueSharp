@@ -80,14 +80,14 @@ namespace Leplank
             var potionManagerMenu = new Menu("Potions", "Leplank.item.potion");
             potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.enabled", "Enabled").SetTooltip("If off, won't use any potions").SetValue(true));
             potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.hp", "Health Potion").SetValue(true));
-            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.hphealth", "Health %").SetValue(new Slider(35, 0, 100)));
+            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.hphealth", "Health %").SetValue(new Slider(60, 0, 100)));
             potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.mp", "Mana Potion").SetValue(true));
-            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.mana", "Mana %").SetValue(new Slider(30, 0, 100)));
+            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.mana", "Mana %").SetValue(new Slider(50, 0, 100)));
             potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.biscuit", "Biscuit").SetValue(true));
-            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.biscuithealth", "Health %").SetValue(new Slider(35, 0, 100)));
+            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.biscuithealth", "Health %").SetValue(new Slider(60, 0, 100)));
             potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.cryst", "Crystalline Flask").SetValue(true));
-            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.crysthealth", "Health %").SetValue(new Slider(40, 0, 100)));
-            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.crystmana", "Mana %").SetValue(new Slider(40, 0, 100)));        
+            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.crysthealth", "Health %").SetValue(new Slider(65, 0, 100)));
+            potionManagerMenu.AddItem(new MenuItem("Leplank.item.potion.crystmana", "Mana %").SetValue(new Slider(65, 0, 100)));        
 
             itemManagerMenu.AddItem(new MenuItem("Leplank.item.youmuu", "Use Youmuu's Ghostblade").SetTooltip("Use Youmuu in Combo").SetValue(true));
             itemManagerMenu.AddItem(new MenuItem("Leplank.item.hydra", "Use Ravenous Hydra").SetTooltip("Use Hydra to clear and in Combo").SetValue(true));
