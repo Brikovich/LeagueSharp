@@ -18,7 +18,7 @@ namespace Leplank
        // GOD DAMN FUCKING ADVANCED COMBO SWAGG GOD LORD L O G I C, bitch please #kappa
         public static void BarrelLord()
         {
-            #region BarrelLord™           
+            #region BarrelLord           
             
             var enemies = Program.Player.GetEnemiesInRange(Program.E.Range);
             var target = TargetSelector.GetTarget(Program.E.Range, TargetSelector.DamageType.Physical);
@@ -44,12 +44,33 @@ namespace Leplank
                     return;
 
                 case 1: // 1v1                   
-                    if (Program.Estacks == 0 && Program.Q.IsReady() && Program.Q.IsInRange(target) && Program.E.Instance.CooldownExpires > Program.Q.Instance.Cooldown)
+                    //QE when enemy is in E range & when the nearest barrel is in Q range and can be connected with a barrel where target can be hit
+                    if (Program.Q.IsReady() && Program.E.IsReady() && Program.E.Instance.Ammo == 1 && BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Distance(Program.Player) < Program.Q.Range && target != null && BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Distance(target) > Program.EexplosionRange)
                     {
-                        Program.Q.CastOnUnit(target);
+                        var pred = Prediction.GetPrediction(target, Program.E.Delay + Program.Q.Delay).CastPosition;
+                        if (BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Distance(pred) <
+                            Program.Econnection && Menus.GetBool("Leplank.combo.e") &&
+                            !Menus.GetBool("Leplank.misc.barrelmanager.edisabled"))
+                        {
+                            ExplosionPrediction.castQ(BarrelsManager.closestToPosition(Program.Player.ServerPosition));
+                            Program.E.Cast(pred);
+                        }
+
+                         
                     }
 
 
+                   // if (Program.E.Insance.Ammo == 1 && Program.E.Instance.CooldownExpires > (Program.Q.Cooldown/2))
+                   // {
+                        
+                   // }
+
+
+                    if (Menus.GetBool("Leplank.combo.q") && Program.E.Instance.Ammo == 0 && Program.Q.IsReady() &&
+                        Program.Q.IsInRange(target) && Program.E.Instance.CooldownExpires > Program.Q.Instance.Cooldown)
+                    {
+                        Program.Q.CastOnUnit(target);
+                    }
                     break;
                 case 2:
 
@@ -66,7 +87,7 @@ namespace Leplank
             }
 
 
-            #endregion BarrelLord™
+            #endregion BarrelLord
         }
 
 

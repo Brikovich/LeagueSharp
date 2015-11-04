@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
@@ -132,7 +133,7 @@ namespace Leplank
                 if (posE.MinionsHit >= Menus.GetSlider("Leplank.lc.emin") &&
                     (!BarrelsManager.savedBarrels.Any() ||
                      BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Distance(Program.Player) > Program.Q.Range) &&
-                    Program.Estacks > Menus.GetSlider("Leplank.misc.barrelmanager.estacks"))
+                    Program.E.Instance.Ammo > Menus.GetSlider("Leplank.misc.barrelmanager.estacks"))
                 {
                     Program.E.Cast(posE.Position);
                 }
@@ -238,6 +239,17 @@ namespace Leplank
 
         private static void Events()
         {
+            #region Q KillSecure
+            var ksQTarget = HeroManager.Enemies.FirstOrDefault(ks => ks.Health < DamageLib.GetQDamages(ks) && !ks.IsDead);
+            if (ksQTarget != null && Menus.GetBool("Leplank.misc.events.qks"))
+            {
+                if (Program.Q.IsReady() && Program.Q.IsInRange(ksQTarget))
+                {
+                    Program.Q.CastOnUnit(ksQTarget);
+                }
+            }
+            #endregion Q KillSecure
+
             #region Potions
             if (Menus.GetBool("Leplank.item.potion.enabled") && !Program.Player.InFountain())
             {

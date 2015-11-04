@@ -20,7 +20,6 @@ namespace Leplank
         public static int Rzone;
         public static int RdeathDaughter;
         public static int Ezone;
-        public static int Estacks = E.Instance.Ammo;
         public static int Econnection;
         public const float EexplosionRange = 340;
         static string champName = "Gangplank";
@@ -36,7 +35,7 @@ namespace Leplank
 
         private static void Game_OnGameLoad(EventArgs args)
         {
-            if (champName != Player.ChampionName) return;
+           if (champName != Player.ChampionName) return;
             #region Spells
             Q = new Spell(SpellSlot.Q, 610);
             Q.SetTargetted(0.25f, 2150f);
