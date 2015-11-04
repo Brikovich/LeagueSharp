@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Leplank")]
-[assembly: AssemblyDescription("Gangplank Assembly")]
+[assembly: AssemblyTitle("Leplank - Test build")]
+[assembly: AssemblyDescription("Test assembly, highly instable")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Leplank")]

@@ -10,7 +10,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 
 
-namespace Leplank
+namespace Leplank-TestZone
 {
     class Program
     {
