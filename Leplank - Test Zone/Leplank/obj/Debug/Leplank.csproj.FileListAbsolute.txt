@@ -1,3 +1,0 @@
-C:\Users\baballevincent\Desktop\Programmation\C Sharp\Brikovich\LeagueSharp\Leplank\Leplank\bin\Release\Leplank.exe.config
-C:\Users\Hatem\Documents\BrikoGitHub\LeagueSharp\Leplank\Leplank\bin\Release\Leplank.exe.config
-C:\Users\Hatem\Documents\BrikoGitHub\LeagueSharp\Leplank - Test Zone\Leplank\bin\Release\Leplank.exe.config
