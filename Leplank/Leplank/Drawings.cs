@@ -81,7 +81,7 @@ namespace Leplank
                         Render.Circle.DrawCircle(Game.CursorPos, Program.Ezone, Menus.GetColor("Leplank.assistant.DrawEZone"), Menus.GetSlider("Leplank.assistant.Thickness"));
 
                     //Connection Circle helper
-                    if (Menus.GetBool("Leplank.assistant.DrawECircle") && Program.Player.Distance(Game.CursorPos) <= Menus.GetSlider("Leplank.assistant.MaxRange") && BarrelsManager.savedBarrels.Count > 0)
+                    if (Menus.GetBool("Leplank.assistant.DrawECircle") && Program.Player.Distance(Game.CursorPos) <= Menus.GetSlider("Leplank.assistant.MaxRange") && Game.CursorPos.Distance(BarrelsManager.closestToPosition(Game.CursorPos).barrel.Position) <= Program.Econnection + 200 && BarrelsManager.savedBarrels.Count > 0)
                     {
                         Assisting = true;
                         if (BarrelsManager.closestToPosition(Game.CursorPos).barrel.Distance(Game.CursorPos) <= Program.Econnection)
