@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
@@ -25,6 +26,8 @@ namespace Leplank
                 else
                     time = 1f * 1000;
 
+
+
                 var qq = Environment.TickCount - targetBarrel.time + (Program.Player.Distance(targetBarrel.barrel) / 2800f + Program.Q.Delay) * 700;
                 if (targetBarrel.barrel.Distance(Program.Player) <= Program.Q.Range)
                 {
@@ -33,7 +36,26 @@ namespace Leplank
                         Utility.DelayAction.Add(Convert.ToInt32(time - qq), () => Program.Q.CastOnUnit(targetBarrel.barrel));
                     
                 }
+
+                
+
         }
+
+        public static float GetQtime(BarrelsManager.Barrel targetBarrel)
+        {
+            float time;
+            if (Program.Player.Level < 7)
+                time = 4f * 1000;
+            else if (Program.Player.Level >= 7 && Program.Player.Level < 13)
+                time = 2f * 1000;
+            else
+                time = 1f * 1000;
+
+            var qq = Environment.TickCount - targetBarrel.time + (Program.Player.Distance(targetBarrel.barrel) / 2800f + Program.Q.Delay) * 700;
+            var result = time - qq;
+            return result;
+        }
+
         public static void autoAttack (BarrelsManager.Barrel targetBarrel)
         {
             float time;

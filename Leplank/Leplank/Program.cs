@@ -60,6 +60,7 @@ namespace Leplank
             //Game.OnUpdate += BarrelsManager._DebugZone;
             Game.OnUpdate += Gangplank._Orbwalking;
             Drawing.OnDraw += Drawings._OnDraw;
+            
 
         }
 

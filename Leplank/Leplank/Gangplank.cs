@@ -106,26 +106,7 @@ namespace Leplank
             {
                 Items.UseItem(3077); //tiamat, range of active = 400
             }
-            #region LasthitquntillE
-            if (Program.E.Level < 1 && Menus.GetBool("Leplank.lh.q") &&
-                Program.Player.ManaPercent >= Menus.GetSlider("Leplank.lh.qmana") && 
-                Program.Q.IsReady())
-            {
-                var minionlhtarget =
-                MinionManager.GetMinions(Program.Q.Range, MinionTypes.All, MinionTeam.NotAlly)
-                    .Where(
-                        mlh =>
-                            mlh.SkinName != "GangplankBarrel" && // It makes the program check if it's not a barrel because Powder Kegs 
-                            mlh.Health < DamageLib.GetQDamages(mlh)) // are considered as Obj ai minions so it may cause some bugs if not checked
-                    .OrderByDescending(mlh => mlh.Distance(Program.Player)) // Prioritize minions that's are far from the player
-                    .FirstOrDefault();
-                if (Menus.GetBool("Leplank.lh.q") && Program.Player.ManaPercent >= Menus.GetSlider("Leplank.lh.qmana") &&
-                    Program.Q.IsReady() && minionlhtarget != null) // Check config
-                {
-                    Program.Q.CastOnUnit(minionlhtarget);
-                }
-            }
-            #endregion LasthituntillE
+           
             if (Menus.GetBool("Leplank.misc.barrelmanager.edisabled") == false &&
                 Menus.GetBool("Leplank.lc.e") && Program.E.IsReady())
             {
@@ -228,7 +209,7 @@ namespace Leplank
             if (Menus.GetBool("Leplank.misc.events.wheal") && Program.Player.HealthPercent <= Menus.GetSlider("Leplank.misc.events.healmin") &&
                 Program.Player.ManaPercent >= Menus.GetSlider("Leplank.misc.events.healminmana"))
             {
-                Utility.DelayAction.Add(100 + Game.Ping, () =>
+                Utility.DelayAction.Add(50 + Game.Ping, () =>
                 {
                     Program.W.Cast();
                 }

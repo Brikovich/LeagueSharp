@@ -22,6 +22,7 @@ namespace Leplank
             
             var enemies = Program.Player.GetEnemiesInRange(Program.E.Range);
             var target = TargetSelector.GetTarget(Program.E.Range, TargetSelector.DamageType.Physical);
+            var bar = BarrelsManager.closestToPosition(Program.Player.ServerPosition);
             #region R
             if (Menus.GetBool("Leplank.combo.r") && Program.R.IsReady())
             {
@@ -48,26 +49,31 @@ namespace Leplank
                     if (Program.Q.IsReady() && Program.E.IsReady() && Program.E.Instance.Ammo == 1 && BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Distance(Program.Player) < Program.Q.Range && target != null && BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Distance(target) > Program.EexplosionRange)
                     {
                         var pred = Prediction.GetPrediction(target, Program.E.Delay + Program.Q.Delay).CastPosition;
-                        if (BarrelsManager.closestToPosition(Program.Player.ServerPosition).barrel.Distance(pred) <
+                       
+                        if (bar.barrel.Distance(pred) <
                             Program.Econnection && Menus.GetBool("Leplank.combo.e") &&
                             !Menus.GetBool("Leplank.misc.barrelmanager.edisabled"))
-                        {
-                            ExplosionPrediction.castQ(BarrelsManager.closestToPosition(Program.Player.ServerPosition));
-                            Program.E.Cast(pred);
+                        {         
+                        ExplosionPrediction.castQ(bar);
+                           
+                                Utility.DelayAction.Add((int) (ExplosionPrediction.GetQtime(bar)), () =>
+                                {
+                                    Program.E.Cast(pred);
+                                }
+                                    );
                         }
-
-                         
                     }
 
 
-                   // if (Program.E.Insance.Ammo == 1 && Program.E.Instance.CooldownExpires > (Program.Q.Cooldown/2))
-                   // {
-                        
-                   // }
+                    // if (Program.E.Insance.Ammo == 1 && Program.E.Instance.CooldownExpires > (Program.Q.Cooldown/2))
+                    // {
+
+                    // }
 
 
                     if (Menus.GetBool("Leplank.combo.q") && Program.E.Instance.Ammo == 0 && Program.Q.IsReady() &&
-                        Program.Q.IsInRange(target) && Program.E.Instance.CooldownExpires > Program.Q.Instance.Cooldown)
+                        Program.Q.IsInRange(target) && Program.E.Instance.CooldownExpires > Program.Q.Instance.Cooldown &&
+                        !BarrelsManager.savedBarrels.Any())
                     {
                         Program.Q.CastOnUnit(target);
                     }
