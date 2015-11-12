@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp.Common;
@@ -24,6 +23,7 @@ namespace Leplank
         public const float EexplosionRange = 340;
         static string champName = "Gangplank";
         public const string version = "1.0.0.0";
+        public static int lastnotif;
         #endregion declarations
 
 
@@ -47,6 +47,7 @@ namespace Leplank
             RdeathDaughter = 200;
             Ezone = 340;
             Econnection = 680;
+            lastnotif = Environment.TickCount;
             #endregion
 
             Game.PrintChat("<b><font color='#8A008A'>Le</font><font color='#FF6600'>plank</font></b> " + version + " loaded - By <font color='#6666FF'>Brikovich</font> & <font color='#6666FF'>Baballev</font>");

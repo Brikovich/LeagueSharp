@@ -18,10 +18,12 @@ namespace Leplank
             {
                 return;
             }
+            
             #region ks notif
             if (Menus.GetBool("Leplank.misc.rksnotif") && Program.R.IsReady())
             {
-                var rkstarget = HeroManager.Enemies.Where(k => k.Health < (DamageLib.GetRDamages(k) / 2) && !k.IsDead).ToList();
+                
+                var rkstarget = HeroManager.Enemies.Where(k => k.Health < (DamageLib.GetRDamages(k) / 2) && !k.IsDead && k.IsVisible).ToList();
                 var kappa = 0;
                 foreach (var ks in rkstarget)
                 {
@@ -30,7 +32,17 @@ namespace Leplank
                     Drawing.DrawText(pos.X - Drawing.GetTextExtent(ks.ChampionName + " KILLABLE WITH R").Width, kappa * 25 + pos.Y - Drawing.GetTextExtent(ks.ChampionName + " KILLABLE WITH R").Height, Color.DarkOrange, ks.ChampionName + " KILLABLE WITH R");
 
                 }
-                }
+
+                    foreach (var ks in rkstarget)
+                    {
+                        if (Environment.TickCount - Program.lastnotif > 10000)
+                        {
+                            Notifications.AddNotification(new Notification(ks.ChampionName + " IS KILLABLE WITH R", 3000, true).SetTextColor(Color.DarkOrange));
+                            Program.lastnotif = Environment.TickCount;
+                        }
+                    }
+              
+            }
             #endregion ks notif
             #region Orbwalker modes
             var activeOrbwalker = Menus._orbwalker.ActiveMode;
@@ -86,27 +98,23 @@ namespace Leplank
             {
                 return;
             }
-
+            #region Items
             // Items
             if (Menus.GetBool("Leplank.item.hydra") &&
-                (MinionManager.GetMinions(ObjectManager.Player.ServerPosition, 390).Count > 2 ||
-                 MinionManager.GetMinions(ObjectManager.Player.ServerPosition, 390, MinionTypes.All, MinionTeam.Neutral)
-                     .Count >= 1) &&
-                Items.HasItem(3074) &&
-                Items.CanUseItem(3074))
+                (MinionManager.GetMinions(ObjectManager.Player.ServerPosition, LeagueSharp.Common.Data.ItemData.Ravenous_Hydra_Melee_Only.GetItem().Range).Count > 2 ||
+                 MinionManager.GetMinions(ObjectManager.Player.ServerPosition, LeagueSharp.Common.Data.ItemData.Ravenous_Hydra_Melee_Only.GetItem().Range, MinionTypes.All, MinionTeam.Neutral)
+                     .Count >= 1) && Items.HasItem(3074) && Items.CanUseItem(3074) && !Orbwalking.CanAttack())
             {
                 Items.UseItem(3074); //hydra, range of active = 400
             }
             if (Menus.GetBool("Leplank.item.tiamat") &&
-                (MinionManager.GetMinions(ObjectManager.Player.ServerPosition, 390).Count > 2 ||
-                 MinionManager.GetMinions(ObjectManager.Player.ServerPosition, 390, MinionTypes.All, MinionTeam.Neutral)
-                     .Count >= 1) &&
-                Items.HasItem(3077) &&
-                Items.CanUseItem(3077))
+                (MinionManager.GetMinions(ObjectManager.Player.ServerPosition, LeagueSharp.Common.Data.ItemData.Tiamat_Melee_Only.GetItem().Range).Count > 2 ||
+                 MinionManager.GetMinions(ObjectManager.Player.ServerPosition, LeagueSharp.Common.Data.ItemData.Tiamat_Melee_Only.GetItem().Range, MinionTypes.All, MinionTeam.Neutral)
+                     .Count >= 1) && Items.HasItem(3077) && Items.CanUseItem(3077) && !Orbwalking.CanAttack())
             {
-                Items.UseItem(3077); //tiamat, range of active = 400
+                Items.UseItem(3077); 
             }
-           
+            #endregion Items
             if (Menus.GetBool("Leplank.misc.barrelmanager.edisabled") == false &&
                 Menus.GetBool("Leplank.lc.e") && Program.E.IsReady())
             {
@@ -159,7 +167,7 @@ namespace Leplank
         {
             
         }
-
+        // TODO HEALTH Prioritize
         private static void LastHit()
         {
             var minionlhtarget =
@@ -168,7 +176,7 @@ namespace Leplank
                         mlh =>
                             mlh.SkinName != "GangplankBarrel" && // It makes the program check if it's not a barrel because Powder Kegs 
                             mlh.Health < DamageLib.GetQDamages(mlh)) // are considered as Obj ai minions so it may cause some bugs if not checked
-                    .OrderByDescending(mlh => mlh.Distance(Program.Player)) // Prioritize minions that's are far from the player
+                    .OrderByDescending(mlh => mlh.Distance(Program.Player))//.ThenBy() // Prioritize minions that's are far from the player
                     .FirstOrDefault();
             if (Menus.GetBool("Leplank.lh.q") && Program.Player.ManaPercent >= Menus.GetSlider("Leplank.lh.qmana") &&
                 Program.Q.IsReady() && minionlhtarget != null) // Check config

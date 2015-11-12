@@ -31,7 +31,8 @@ namespace Leplank
 
                             if (regex.Success)
                             {
-                                var gitVersion =new Version(string.Format("{0}.{1}.{2}.{3}",regex.Groups[1], regex.Groups[2], regex.Groups[3] , regex.Groups[4]));
+                                var gitVersion =new Version(
+                                    $"{regex.Groups[1]}.{regex.Groups[2]}.{regex.Groups[3]}.{regex.Groups[4]}");
 
                                 if (gitVersion != Ver)
                                 {

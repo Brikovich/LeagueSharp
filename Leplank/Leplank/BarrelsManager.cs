@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -210,7 +208,7 @@ namespace Leplank
                 {
                     for (int k=0;k<barrelChains[i].Count;k++)
                     {
-                        if (barrelChains[i].Count() == 0)
+                        if (!barrelChains[i].Any())
                             return null;
                         float bestSoFar = -1;
 
