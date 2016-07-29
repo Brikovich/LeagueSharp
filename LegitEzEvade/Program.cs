@@ -238,6 +238,7 @@ namespace LegitEzEvade
             MainMenu.AddSubMenu(lvlTwo);
             MainMenu.AddSubMenu(lvlThree);
 
+            MainMenu.AddItem(new MenuItem("sep0", "-- To apply settings Disable then Enable or F5 --"));
             MainMenu.AddItem(new MenuItem("sep", "- Setup"));
 
             MainMenu.AddItem(new MenuItem("threshold1", "Health % threshold 1").SetValue(new Slider(70, 1, 99)).SetTooltip("LvL 1 : threshold 1 -> 100% | LvL 2 : threshold 2 -> threshold 1 | LvL 3 : 0% -> threshold 2"));
