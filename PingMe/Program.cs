@@ -60,48 +60,53 @@ namespace PingMe
         {
 
             bool ping = false;
-
-            if (hasTP && !hasLongRangeUlt)
+            if (MainMenu.Item("PingEnemy", true).GetValue<Boolean>() || MainMenu.Item("PingAlly", true).GetValue<Boolean>())
             {
-                if (MainMenu.Item("TpPing", true).GetValue<Boolean>())
+                if (hasTP && !hasLongRangeUlt)
                 {
-                    if (TPSpell.IsReady())
+                    if (MainMenu.Item("TpPing", true).GetValue<Boolean>())
                     {
-                        ping = true;
+                        if (TPSpell.IsReady())
+                        {
+                            ping = true;
+                        }
                     }
+                    else ping = true;
                 }
-                else ping = true;
-            } else if (!hasLongRangeUlt) ping = true;
+                else if (!hasLongRangeUlt) ping = true;
 
-            if (hasLongRangeUlt && !hasTP)
-            {
-                if (MainMenu.Item("UltPing", true).GetValue<Boolean>())
+                if (hasLongRangeUlt && !hasTP)
                 {
-                    if (RSpell.IsReady())
+                    if (MainMenu.Item("UltPing", true).GetValue<Boolean>())
                     {
-                        ping = true;
+                        if (RSpell.IsReady())
+                        {
+                            ping = true;
+                        }
                     }
+                    else ping = true;
                 }
-                else ping = true;
-            } else if (!hasTP) ping = true;
+                else if (!hasTP) ping = true;
 
-            if (hasLongRangeUlt && hasTP)
-            {
-                if (MainMenu.Item("UltPing", true).GetValue<Boolean>() && MainMenu.Item("TpPing", true).GetValue<Boolean>())
+                if (hasLongRangeUlt && hasTP)
                 {
-                    if (RSpell.IsReady() || TPSpell.IsReady()) ping = true;
+                    if (MainMenu.Item("UltPing", true).GetValue<Boolean>() && MainMenu.Item("TpPing", true).GetValue<Boolean>())
+                    {
+                        if (RSpell.IsReady() || TPSpell.IsReady()) ping = true;
+                    }
+                    else if (MainMenu.Item("UltPing", true).GetValue<Boolean>() && !MainMenu.Item("TpPing", true).GetValue<Boolean>())
+                    {
+                        if (RSpell.IsReady()) ping = true;
+                    }
+                    else if (!MainMenu.Item("UltPing", true).GetValue<Boolean>() && MainMenu.Item("TpPing", true).GetValue<Boolean>())
+                    {
+                        if (TPSpell.IsReady()) ping = true;
+                    }
+                    else ping = true;
                 }
-                else if (MainMenu.Item("UltPing", true).GetValue<Boolean>() && !MainMenu.Item("TpPing", true).GetValue<Boolean>())
-                {
-                    if (RSpell.IsReady()) ping = true;
-                }
-                else if (!MainMenu.Item("UltPing", true).GetValue<Boolean>() && MainMenu.Item("TpPing", true).GetValue<Boolean>())
-                {
-                    if (TPSpell.IsReady()) ping = true;
-                } else ping = true;
-            } else if (!hasTP && !hasLongRangeUlt) ping = true;
+                else if (!hasTP && !hasLongRangeUlt) ping = true;
 
-            
+            }
 
 
             if (MainMenu.Item("PingAlly", true).GetValue<Boolean>() && ping)
