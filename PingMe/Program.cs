@@ -16,7 +16,7 @@ namespace PingMe
         private static Menu MainMenu;
         private static List<Obj_AI_Hero> Allies;
         private static List<Obj_AI_Hero> Ennemies;
-        private static List<string> R2winChamps = new List<string>(new string[] { "shen", "soraka", "ashe", "ezreal", "draven", "gangplank", "karthus", "pantheon", "ziggs", "nocturne", "lux", "ryze", "xerath", "twistedfate" });
+        private static List<string> R2winChamps = new List<string>(new string[] { "shen", "soraka", "ashe", "ezreal", "draven", "gangplank", "karthus", "pantheon", "ziggs", "nocturne", "lux", "ryze", "xerath", "twistedfate", "kled", "taliyah" });
         private static bool hasTP;
         private static bool hasLongRangeUlt;
         private static double allylastPing = 0;
