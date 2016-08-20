@@ -123,7 +123,7 @@ namespace PingMe
             {
                 foreach (var enemy in HeroManager.Enemies)
                 {
-                    if (!enemy.IsDead && enemy.Distance(Me) >= 3000 && enemy.HealthPercent < MainMenu.SubMenu("enemyMenu").Item("enemy" + enemy.ChampionName + "HPPERCENT").GetValue<Slider>().Value && (enemylastPing == 0 || Environment.TickCount - enemylastPing > 3000) && ( (lastpingedenemy == null || lastpingedenemy != enemy) || Environment.TickCount - enemylastPing > 30000) )
+                    if (!enemy.IsDead && enemy.IsVisible && enemy.Distance(Me) >= 3000 && enemy.HealthPercent < MainMenu.SubMenu("enemyMenu").Item("enemy" + enemy.ChampionName + "HPPERCENT").GetValue<Slider>().Value && (enemylastPing == 0 || Environment.TickCount - enemylastPing > 3000) && ( (lastpingedenemy == null || lastpingedenemy != enemy) || Environment.TickCount - enemylastPing > 30000) )
                     {
                         Game.ShowPing(PingCategory.Fallback, enemy.Position, true);
                         Utility.DelayAction.Add(200, () => Game.ShowPing(PingCategory.Fallback, enemy.Position, true));
